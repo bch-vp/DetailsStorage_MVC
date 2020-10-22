@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Details Storage</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Details <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/projects">Projects</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/createProject">CreateProject</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<br><br>
+
+<div class="container" th:if="${!projects.isEmpty()}">
+    <div class="row">
+        <div class="=col">
+            <table class="table table-bordered ">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Project Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Storage</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project: ${projects}">
+
+                    <td th:if="${project.projectName != null }" th:text="${project.projectName}"/>
+                    <td th:if="${project.projectName == null }"/>
+
+                    <td th:if="${project.type != null }" th:text="${project.type}"/>
+                    <td th:if="${project.type == null }"/>
+
+                    <td th:if="${project.quantity != null }" th:text="${project.quantity}"/>
+                    <td th:if="${project.quantity == null }"/>
+
+                    <td th:if="${project.storage != null }" th:text="${project.storage}"/>
+                    <td th:if="${project.storage == null }"/>
+
+                    <td>
+                        <form th:action="@{/projects}" method="POST">
+                            <input type="hidden" th:value="${project.id}" name="id"/>
+                            <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                        </form>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

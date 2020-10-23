@@ -34,7 +34,7 @@ public class CreateProject {
         model.addAttribute("project", new Project());
         model.addAttribute("details", detailServiceImpl.findAll());
         DetailMap detailMap = new DetailMap();
-        for (int i = 1; i <= detailServiceImpl.findAll().size(); i++) {
+        for (int i = 0; i < detailServiceImpl.findAll().size(); i++) {
             detailMap.addDetail(new DetailForm());
         }
         model.addAttribute("detailMap", detailMap);
@@ -44,11 +44,11 @@ public class CreateProject {
     @PostMapping("/createProject")
     public String createeProject(@Valid Project project, Errors errors, DetailMap detailMap, Model model){
         deleteAllNullFields(detailMap);
-        if(detailMap.getDetails().isEmpty()){
-            model.addAttribute("quantityError","Quantity is required");
-        }
-
-        if(!errors.hasErrors() && !detailMap.getDetails().isEmpty()){
+        if(!checkIsQuantityInFormWasCorrect(detailMap)) {
+            model.addAttribute("quantityErrorInForm", "Quantity filled not correct");
+        }else if(detailMap.getDetails().isEmpty()) {
+            model.addAttribute("quantityError", "Quantity is required");
+        }else if(!errors.hasErrors()){
             Long idProject=projectServiceImpl.saveProject(project).getId();
             detailMap.getDetails()
                     .stream()
@@ -60,6 +60,17 @@ public class CreateProject {
         }
         model.addAttribute("details", detailServiceImpl.findAll());
        return "createProject";
+    }
+
+    private boolean checkIsQuantityInFormWasCorrect(DetailMap detailMap){
+        for(DetailForm detailForm: detailMap.getDetails()){
+            Integer quantityForm=detailForm.getQuantity();
+            Integer quantityOfAvailableInDetail=detailServiceImpl.findDetailById(detailForm.getId()).getQuantityOfAvailable();
+            if(quantityForm>quantityOfAvailableInDetail){
+                return false;
+            }
+        }
+        return true;
     }
 
     private DetailMap deleteAllNullFields(DetailMap detailMap){

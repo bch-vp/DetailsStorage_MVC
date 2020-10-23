@@ -43,6 +43,7 @@
     </div>
 </div>
 
+
 <div th:if="${!details.isEmpty()}">
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
@@ -85,9 +86,13 @@
                         </div>
                         <div class="col">
 
-                         <span style="color:red" th:if="${quantityError!=null}">
-                             <div th:text="${quantityError}"/>
-                         </span>
+                            <span style="color:red" th:if="${quantityErrorInForm!=null}">
+                                <div th:text="${quantityErrorInForm}"/>
+                            </span>
+
+                            <span style="color:red" th:if="${quantityError!=null}">
+                                <div th:text="${quantityError}"/>
+                            </span>
 
                             <table class="table table-bordered " th:if="${!details.isEmpty()}">
                                 <thead class="thead-light">
@@ -108,7 +113,7 @@
                                            th:value="${detail.getId()}"/>
                                     <td>
                                         <div class="form-group " style="width:50%;">
-                                            <input class="form-control" placeholder="Quantity"
+                                            <input type="number" class="form-control" placeholder="Quantity"
                                                    th:field="*{details[__${itemStat.index}__].quantity}"/>
                                         </div>
                                     </td>

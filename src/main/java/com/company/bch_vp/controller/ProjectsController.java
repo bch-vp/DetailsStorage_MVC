@@ -28,23 +28,9 @@ public class ProjectsController {
     @Autowired
     private ProjectServiceImpl projectServiceImpl;
 
-//    @PersistenceContext
-//    private EntityManager entityManger;
-//
-//    public void fillDetailss(Model model) {
-//        detailServiceImpl.saveDetail(new Detail("det1","aeg","faefa",100,(double)43,"Aeg"));
-//        //detailServiceImpl.saveDetail(new Detail("det2","aeg","faefa",50,(double)43,"Aeg"));
-//        projectServiceImpl.saveProject(new Project("pr1","agfe",33,"aegaff"));
-//        projectServiceImpl.saveProject(new Project("pr2","agee",3,"aegf"));
-//        projectServiceImpl.saveProject(new Project("pr3","aafge",5,"agegf"));
-//        detailInfoServiceImpl.addDetail(20,(long)1,(long)1);
-//        detailInfoServiceImpl.addDetail(30,(long)1,(long)2);
-//        detailInfoServiceImpl.addDetail(40,(long)1,(long)3);
-//    }
 
     @GetMapping(value = "/projects")
     public String showProjects(Model model) {
-     //  fillDetailss(model);
         List<DetailInfo> list=detailInfoServiceImpl.findAll();
         List<Project> listpro=projectServiceImpl.findAll();
 

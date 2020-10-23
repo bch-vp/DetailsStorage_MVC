@@ -31,19 +31,19 @@ public class TestDeleteProject {
     @Before
     @Transactional
     public void fillDB(){
-        Detail detail_1=new Detail("detail_1",100);
+        Detail detail_1=new Detail("detail_1", "type","production",100, (double)40, "storage");
         Long idDetail_1=detailServiceImpl.saveDetail(detail_1).getId();
 
-        Detail detail_2=new Detail("detail_2",200);
+        Detail detail_2=new Detail("detail_2", "type","production",200, (double)40, "storage");
         Long idDetail_2=detailServiceImpl.saveDetail(detail_2).getId();
 
-        Project project_1=new Project("prpject_1");
-        Long idProject_1=projectServiceImpl.saveProject(project_1).getId();
+        Project project=new Project("prpject_1","type" , 1,"storage");
+        Long idProject=projectServiceImpl.saveProject(project).getId();
 
-        detailInfoServiceImpl.addDetail(30,idDetail_1,idProject_1);
-        detailInfoServiceImpl.addDetail(20,idDetail_2,idProject_1);
+        detailInfoServiceImpl.addDetail(30, idDetail_1, idProject);
+        detailInfoServiceImpl.addDetail(20, idDetail_2, idProject);
 
-        Project project_2=new Project("prpject_2");
+        Project project_2=new Project("prpject_2","type" , 1,"storage");
         Long idProject_2=projectServiceImpl.saveProject(project_2).getId();
 
         detailInfoServiceImpl.addDetail(30,idDetail_1,idProject_2);

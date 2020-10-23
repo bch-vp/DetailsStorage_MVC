@@ -62,7 +62,7 @@ public class DetailsController {
     @PostMapping(value = "/",params ={ "quantity","id"})
     public String addQuantityToDetail(Long id,@RequestParam(required = false) Integer quantity,Model model){
         if(quantity!=null) {
-            detailServiceImpl.addAvailableDetails(id, quantity);
+            detailServiceImpl.addQuantityOfDetails(id, quantity);
         }
         else{
             model.addAttribute("error","Is required");

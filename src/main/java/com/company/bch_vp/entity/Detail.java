@@ -63,6 +63,11 @@ public class Detail {
 
     public Detail addAvailableDetails(Integer quantityOfAvailable){
         this.quantityOfAvailable+=quantityOfAvailable;
+        return this;
+    }
+
+    public Detail addQuantityOfDetails(Integer quantityOfAvailable){
+        this.quantityOfAvailable+=quantityOfAvailable;
         this.quantityOfAll+=quantityOfAvailable;
         return this;
     }

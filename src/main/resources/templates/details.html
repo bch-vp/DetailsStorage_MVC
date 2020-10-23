@@ -32,6 +32,19 @@
 
 <br><br>
 
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <div th:if="${details.isEmpty()}" style="color: red">
+                There're no Details
+                <br><br><br><br>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+
 <div class="container h-100">
     <div class="row h-100 justify-content-center align-items-center">
         <form class="col-12" method="POST" th:action="@{/}" th:object="${detail}">
@@ -71,7 +84,7 @@
                       th:errors="*{storage}">
                 </span>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm" >Submit</button>
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
         </form>
     </div>
 </div>
@@ -79,66 +92,68 @@
 <br><br>
 
 
-<table class="table table-bordered " th:if="${!details.isEmpty()}">
-    <thead class="thead-light">
-    <tr>
-        <th scope="col">Detail Name</th>
-        <th scope="col">Type</th>
-        <th scope="col">Production</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Quantity Of Available</th>
-        <th scope="col">Price</th>
-        <th scope="col">Storage</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr th:each="detail: ${details}">
-            <td th:if="${detail.detailName != null }" th:text="${detail.detailName}"/>
-            <td th:if="${detail.detailName == null }" />
+<div class="container" th:if="${!details.isEmpty()}">
+    <div class="row">
+        <div class="=col">
+            <table class="table table-bordered ">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Detail Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Production</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Quantity Of Available</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Storage</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="detail: ${details}">
+                    <td th:if="${detail.detailName != null }" th:text="${detail.detailName}"/>
+                    <td th:if="${detail.detailName == null }"/>
 
-            <td th:if="${detail.type != null }" th:text="${detail.type}"/>
-            <td th:if="${detail.type == null }" />
+                    <td th:if="${detail.type != null }" th:text="${detail.type}"/>
+                    <td th:if="${detail.type == null }"/>
 
-            <td th:if="${detail.production != null }" th:text="${detail.production}"/>
-            <td th:if="${detail.production == null }" />
+                    <td th:if="${detail.production != null }" th:text="${detail.production}"/>
+                    <td th:if="${detail.production == null }"/>
 
-            <td th:if="${detail.quantityOfAll != null }" th:text="${detail.quantityOfAll}"/>
-            <td th:if="${detail.quantityOfAll == null }"/>
+                    <td th:if="${detail.quantityOfAll != null }" th:text="${detail.quantityOfAll}"/>
+                    <td th:if="${detail.quantityOfAll == null }"/>
 
-            <td th:if="${detail.quantityOfAvailable != null }" th:text="${detail.quantityOfAvailable}"/>
-            <td th:if="${detail.quantityOfAvailable == null }" />
+                    <td th:if="${detail.quantityOfAvailable != null }" th:text="${detail.quantityOfAvailable}"/>
+                    <td th:if="${detail.quantityOfAvailable == null }"/>
 
-            <td th:if="${detail.price != null }" th:text="${detail.price}+'$'"/>
-            <td th:if="${detail.price == null }"/>
+                    <td th:if="${detail.price != null }" th:text="${detail.price}+'$'"/>
+                    <td th:if="${detail.price == null }"/>
 
-            <td th:if="${detail.storage != null }" th:text="${detail.storage}"/>
-            <td th:if="${detail.storage == null }" />
+                    <td th:if="${detail.storage != null }" th:text="${detail.storage}"/>
+                    <td th:if="${detail.storage == null }"/>
 
-<!--            <div class="form-group " style="width:40%;">-->
-<!--                <input type="text" class="form-control" placeholder="Price in $"/>-->
-<!--            </div>-->
-
-            <td width="30">
-                <form class="form-group"  th:action="@{/}"  method="POST">
-                    <input width="15" type="number" placeholder="Quantity" name="quantity" />
-                    <input type="hidden" th:value="${detail.id}" name="id" />
-                    <span style="color:red"
-                          th:if="${error!=null && detail.id.equals(errorId)}">
+                    <td width="30">
+                        <form class="form-group" th:action="@{/}" method="POST">
+                            <input width="15" type="number" placeholder="Quantity" name="quantity"/>
+                            <input type="hidden" th:value="${detail.id}" name="id"/>
+                            <span style="color:red"
+                                  th:if="${error!=null && detail.id.equals(errorId)}">
                         <div th:text="${error}"/>
                     </span>
-                    <button type="submit" class="btn btn-primary btn-sm">Add details</button>
-                </form>
-            </td>
+                            <button type="submit" class="btn btn-primary btn-sm">Add details</button>
+                        </form>
+                    </td>
 
-            <td>
-                <form th:action="@{/}"  method="POST">
-                    <input type="hidden" th:value="${detail.id}" name="id" />
-                    <button type="submit" class="btn btn-primary btn-sm">Delete</button>
-                </form>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                    <td>
+                        <form th:action="@{/}" method="POST">
+                            <input type="hidden" th:value="${detail.id}" name="id"/>
+                            <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 
 <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->

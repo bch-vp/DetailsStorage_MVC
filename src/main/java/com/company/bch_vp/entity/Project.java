@@ -29,7 +29,7 @@ public class Project {
     @NotBlank(message = "Storage is required")
     private String storage;
 
-    @OneToMany(mappedBy = "detail", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     private List<DetailInfo> detailsInfo = new ArrayList<>();
 
     public void addDetailInfo(DetailInfo detailInfo){

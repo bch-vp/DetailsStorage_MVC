@@ -48,18 +48,17 @@ public class DetailServiceImpl implements DetailService {
                 .stream()
                 .forEach(detailInfo ->{
                     Long projectId = detailInfo.getId().getProjectId();
+                    detailInfo.getDetail().addAvailableDetails(detailInfo.getQuantityDetailsUsed());
                     detailInfo.getProject().getDetailsInfo().remove(detailInfo);
                     Project project=detailInfo.getProject();
                     detailinfoRepository.delete(detailInfo);
-
-             //       projectServiceImpls.deleteProjectById(projectId);//rewrite
 
                     project.getDetailsInfo()
                             .stream()
                             .forEach(detailInfo1 -> {
                         detailInfo1.getDetail().addAvailableDetails(detailInfo1.getQuantityDetailsUsed());
                         detailInfo1.getDetail().getDetailsInfo().remove(detailInfo1);
-                     //   detailinfoRepository.delete(detailInfo1);
+                        detailinfoRepository.delete(detailInfo1);
                     });
                     projectRepository.delete(project);
                 });
@@ -69,6 +68,11 @@ public class DetailServiceImpl implements DetailService {
     @Override
     public void addAvailableDetails(Long id, Integer quantity) {
         detailRepository.save(detailRepository.findById(id).get().addAvailableDetails(quantity));
+    }
+
+    @Override
+    public void addQuantityOfDetails(Long id, Integer quantity) {
+        detailRepository.save(detailRepository.findById(id).get().addQuantityOfDetails(quantity));
     }
 
     @Override

@@ -43,9 +43,12 @@ public class CreateProject {
 
     @PostMapping("/createProject")
     public String createeProject(@Valid Project project, Errors errors, DetailMap detailMap, Model model){
-        if(!errors.hasErrors()){
-            deleteAllNullFields(detailMap);
-            //write null
+        deleteAllNullFields(detailMap);
+        if(detailMap.getDetails().isEmpty()){
+            model.addAttribute("quantityError","Quantity is required");
+        }
+
+        if(!errors.hasErrors() && !detailMap.getDetails().isEmpty()){
             Long idProject=projectServiceImpl.saveProject(project).getId();
             detailMap.getDetails()
                     .stream()

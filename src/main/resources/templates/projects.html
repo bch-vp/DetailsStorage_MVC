@@ -29,6 +29,16 @@
 
 <br><br>
 
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <div th:if="${projects.isEmpty()}" style="color: red">There're no Projects</div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+
 <div class="container" th:if="${!projects.isEmpty()}">
     <div class="row">
         <div class="=col">
@@ -69,6 +79,7 @@
         </div>
     </div>
 </div>
+
 
 </body>
 </html>

@@ -53,21 +53,27 @@ public class DetailsController {
         return "details";
     }
 
-    @PostMapping(value = "/", params = "id")
-    public String deleteDetail(Long id,Model model){
-        detailServiceImpl.deleteDetailById(id);
+    @PostMapping(value = "/", params = "idDetail")
+    public String deleteDetail(Long idDetail,Model model){
+        detailServiceImpl.deleteDetailById(idDetail);
         return showDetails(model);
     }
 
-    @PostMapping(value = "/",params ={ "quantity","id"})
-    public String addQuantityToDetail(Long id,@RequestParam(required = false) Integer quantity,Model model){
+    @PostMapping(value = "/",params ={ "quantity","idDetail"})
+    public String addQuantityToDetail(Long idDetail,@RequestParam(required = false) Integer quantity,Model model){
         if(quantity!=null) {
-            detailServiceImpl.addQuantityOfDetails(id, quantity);
+            detailServiceImpl.addQuantityOfDetails(idDetail, quantity);
         }
         else{
             model.addAttribute("error","Is required");
-            model.addAttribute("errorId",id);
+            model.addAttribute("errorId",idDetail);
         }
+        return showDetails(model);
+    }
+
+    @PostMapping(value = "/", params = {"idDetail","idProject"})
+    public String deleteProject(Long idDetail, Long idProject,Model model){
+        detailInfoServiceImpl.deleteProjectInDetail(idDetail, idProject);
         return showDetails(model);
     }
 }

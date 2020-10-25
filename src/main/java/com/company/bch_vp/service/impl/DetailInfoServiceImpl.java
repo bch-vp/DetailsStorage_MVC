@@ -2,6 +2,7 @@ package com.company.bch_vp.service.impl;
 
 import com.company.bch_vp.entity.Detail;
 import com.company.bch_vp.entity.DetailInfo;
+import com.company.bch_vp.entity.IdDetailInfo;
 import com.company.bch_vp.entity.Project;
 import com.company.bch_vp.repository.DetailRepository;
 import com.company.bch_vp.repository.DetailinfoRepository;
@@ -27,24 +28,25 @@ public class DetailInfoServiceImpl implements DetailInfoService {
     private DetailRepository detailRepository;
     @Autowired
     private DetailinfoRepository detailinfoRepository;
-    @PersistenceContext
-    private EntityManager entityManger;
+
+    @Override
+    public void deleteProjectInDetail(Long idDetail, Long idProject){
+        DetailInfo detailInfo=detailinfoRepository.findById(new IdDetailInfo(idDetail,idProject));
+        detailInfo.getDetail().addAvailableDetails(detailInfo.getQuantityDetailsUsed());
+        detailInfo.getProject().getDetailsInfo().remove(detailInfo);
+        detailInfo.getDetail().getDetailsInfo().remove(detailInfo);
+        detailinfoRepository.delete(detailInfo);
+
+    }
 
     @Override
     public void addDetail(Integer quantityDetailsUsed, Long idDetail, Long idProject) {
-        //entityManger.clear();
-
         Project project=projectRepository.findById(idProject).get();
         Detail detail=detailRepository.findById(idDetail).get();
         if(quantityDetailsUsed<=detail.getQuantityOfAvailable()){
             detail.subtractAvailableDetails(quantityDetailsUsed);
             DetailInfo detailInfo=new DetailInfo(quantityDetailsUsed,detail,project);
            detailinfoRepository.save(detailInfo);
-
-//          project=projectRepository.findById(idProject).get();
-//          detail=detailRepository.findById(idDetail).get();
-//          List<DetailInfo> list=detailinfoRepository.findAll();
-//            System.out.println();
         }
     }
 

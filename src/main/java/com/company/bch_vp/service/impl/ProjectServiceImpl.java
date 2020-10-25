@@ -48,6 +48,10 @@ public class ProjectServiceImpl implements ProjectService {
             return;
         }
         Project project = projectOptional.get();
+        if(project.getDetailsInfo().size()==0){
+            projectRepository.delete(project);
+            return;
+        }
         List<DetailInfo> list=detailinfoRepository.findAll();
 //get detailsInfo
         List<DetailInfo> detailsInfo = project.getDetailsInfo();

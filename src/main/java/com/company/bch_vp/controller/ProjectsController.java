@@ -39,10 +39,14 @@ public class ProjectsController {
     }
 
     @PostMapping(value = "/projects", params = "id")
-    public String deleteDetail(Long id,Model model){
-        List<DetailInfo> list=detailInfoServiceImpl.findAll();
-        String s=list.get(0).getProject().getProjectName();
+    public String deleteProject(Long id,Model model){
         projectServiceImpl.deleteProjectById(id);
+        return showProjects(model);
+    }
+
+    @PostMapping(value = "/", params = {"idDetail","idProject"})
+    public String deleteProject(Long idDetail, Long idProject,Model model){
+        projectServiceImpl.deleteDetailInProject(idDetail, idProject);
         return showProjects(model);
     }
 }

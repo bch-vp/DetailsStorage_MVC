@@ -119,11 +119,11 @@
 
             <td>
                 <span th:text="${detail.quantityOfAll}"/>
-                    <form class="form-group" th:action="@{/}" method="POST">
+                    <form style="width: 200px;" class="form-group" th:action="@{/}" method="POST">
                         <input type="number" placeholder="Quantity" name="quantity"/>
                         <input type="hidden" th:value="${detail.id}" name="idDetail"/>
-                        <span style="color:red" th:if="${error!=null && detail.id.equals(errorId)}">
-                            <div th:text="${error}"/>
+                        <span style="color:red" th:if="${errorAddQuantityToDetail!=null && detail.id.equals(errorIdAddQuantityToDetail)}">
+                            <div th:text="${errorAddQuantityToDetail}"/>
                         </span>
                         <button type="submit" class="btn btn-primary btn-sm">Add</button>
                     </form>
@@ -142,25 +142,73 @@
                 <table class="table table-bordered " th:if="${!detail.getDetailsInfo().isEmpty()}">
                     <tbody>
                     <tr th:each="detailInfo: ${detail.getDetailsInfo()}" >
+
                         <td>
-                            Quantity:
+                            <b>Quantity in use:</b>
                             <br>
                             <span style="color:red" th:text="${detailInfo.quantityDetailsUsed}"/>
+                            <form style="width: 200px;" class="form-group" th:action="@{/}" method="POST">
+                                <input type="number" placeholder="Quantity" name="quantity"/>
+                                <input type="hidden" th:value="${detailInfo.id.detailId}" name="idDetail"/>
+                                <input type="hidden" th:value="${detailInfo.id.projectId}" name="idProject"/>
+                                <span style="color:red"
+                                      th:if="${errorAddQuantityOfDetailInProject_quantityIsNull!=null
+                                      && detailInfo.id.detailId.equals(errorAddQuantityOfDetailInProject_idDetail)
+                                      && detailInfo.id.projectId.equals(errorAddQuantityOfDetailInProject_idProject)}">
+                                    <div th:text="${errorAddQuantityOfDetailInProject_quantityIsNull}"/>
+                                </span>
+                                <span style="color:red"
+                                      th:if="${errorAddQuantityOfDetailInProject_quantityIsNotCorrect!=null
+                                      && detailInfo.id.detailId.equals(errorAddQuantityOfDetailInProject_idDetail)
+                                      && detailInfo.id.projectId.equals(errorAddQuantityOfDetailInProject_idProject)}">
+                                    <div th:text="${errorAddQuantityOfDetailInProject_quantityIsNotCorrect}"/>
+                                </span>
+                                <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                            </form>
                         </td>
-                        <td th:if="${detailInfo.project.projectName != null }"
-                            th:text="${detailInfo.project.projectName}"/>
-                        <td th:if="${detailInfo.project.projectName == null }"/>
 
-                        <td th:if="${detailInfo.project.type != null }" th:text="${detailInfo.project.type}"/>
-                        <td th:if="${detailInfo.project.type == null }"/>
+                        <td>
+                            <b>Detail Name:</b>
+                            <br>
+                            <span th:if="${detailInfo.detail.detailName != null }" th:text="${detailInfo.detail.detailName}"/>
+                        </td>
 
-                        <td th:if="${detailInfo.project.quantity != null }"
-                            th:text="${detailInfo.project.quantity}"/>
-                        <td th:if="${detailInfo.project.quantity == null }"/>
+                        <td>
+                            <b>Type:
+                            <br>
+                            <span th:if="${detailInfo.detail.type != null }" th:text="${detailInfo.detail.type}"/>
+                        </td>
 
-                        <td th:if="${detailInfo.project.storage != null }"
-                            th:text="${detailInfo.project.storage}"/>
-                        <td th:if="${detailInfo.project.storage == null }"/>
+                        <td>
+                            <b>Production:</b>
+                            <br>
+                            <span th:if="${detailInfo.detail.production != null }" th:text="${detailInfo.detail.production}"/>
+                        </td>
+
+                        <td>
+                            <b>Quantity of all:</b>
+                            <br>
+                            <span th:if="${detailInfo.detail.quantityOfAll != null }" th:text="${detailInfo.detail.quantityOfAll}"/>
+                        </td>
+
+                        <td>
+                            <b>Quantity of available:</b>
+                            <br>
+                            <span style="color: forestgreen" th:if="${detailInfo.detail.quantityOfAvailable != null }" th:text="${detailInfo.detail.quantityOfAvailable}"/>
+                        </td>
+
+                        <td>
+                            <b>Price:</b>
+                            <br>
+                            <span th:if="${detailInfo.detail.price != null }" th:text="${detailInfo.detail.price}"/>
+                        </td>
+
+                        <td>
+                            <b>Storage:</b>
+                            <br>
+                            <span th:if="${detailInfo.detail.storage != null }" th:text="${detailInfo.detail.storage}"/>
+                        </td>
+
                         <td>
                             <form th:action="@{/}" method="POST">
                                 <input type="hidden" th:value="${detailInfo.getId().getProjectId()}" name="idProject"/>

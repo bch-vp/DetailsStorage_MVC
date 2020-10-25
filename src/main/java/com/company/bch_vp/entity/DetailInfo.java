@@ -12,37 +12,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 public class DetailInfo {
-
-//classes
-//    @Embeddable
-//    @NoArgsConstructor
-//    public static class Id implements Serializable {
-//
-//        @Column(name = "detail_id")
-//        protected Long detailId;
-//        @Column(name = "project_id")
-//        protected Long projectId;
-//
-//        public Id(Long detailyId, Long projectId) {
-//            this.detailId = detailyId;
-//            this.projectId = projectId;
-//        }
-//
-//        public boolean equals(Object o) {
-//            if (o != null && o instanceof Id) {
-//                Id that = (Id) o;
-//                return this.detailId.equals(that.detailId)
-//                        && this.projectId.equals(that.projectId);
-//            }
-//            return false;
-//        }
-//
-//        public int hashCode() {
-//            return detailId.hashCode() + projectId.hashCode();
-//        }
-//    }
-
-//fields
     @EmbeddedId
     @Getter @Setter(AccessLevel.NONE)
     private IdDetailInfo id = new IdDetailInfo();
@@ -70,6 +39,16 @@ public class DetailInfo {
 
         project.getDetailsInfo().add(this);
         detail.getDetailsInfo().add(this);
+    }
+
+    public DetailInfo addQuantityofDetailsUsed(Integer quantity){
+        this.quantityDetailsUsed+=quantity;
+        return this;
+    }
+
+    public DetailInfo subtractQuantityofDetailsUsed(Integer quantity){
+        this.quantityDetailsUsed+=quantity;
+        return this;
     }
 
     @Override

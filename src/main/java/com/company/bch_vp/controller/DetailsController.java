@@ -23,6 +23,8 @@ public class DetailsController {
     private DetailInfoServiceImpl detailInfoServiceImpl;
     @Autowired
     private ProjectServiceImpl projectServiceImpl;
+    @PersistenceContext
+    private EntityManager entityManager;
 //
 //    @GetMapping("/fill")
 //    public String fillDetails(Model model) {
@@ -38,6 +40,7 @@ public class DetailsController {
 
     @GetMapping("/")
     public String showDetails(Model model) {
+        entityManager.clear();
         model.addAttribute("detail",new Detail());
         model.addAttribute("details",detailServiceImpl.findAll());
         return "details";
@@ -65,15 +68,32 @@ public class DetailsController {
             detailServiceImpl.addQuantityOfDetails(idDetail, quantity);
         }
         else{
-            model.addAttribute("error","Is required");
-            model.addAttribute("errorId",idDetail);
+            model.addAttribute("errorAddQuantityToDetail","Is required");
+            model.addAttribute("errorIdAddQuantityToDetail",idDetail);
         }
         return showDetails(model);
     }
 
     @PostMapping(value = "/", params = {"idDetail","idProject"})
-    public String deleteProject(Long idDetail, Long idProject,Model model){
+    public String deleteProjectInDetail(Long idDetail, Long idProject,Model model){
         detailInfoServiceImpl.deleteProjectInDetail(idDetail, idProject);
+        return showDetails(model);
+    }
+
+    @PostMapping(value = "/", params = {"quantity","idDetail","idProject"})
+    public String addQuantityOfDetailInProject(@RequestParam(required = false) Integer quantity, Long idDetail, Long idProject,Model model){
+        if(quantity!=null && quantity>0 && detailServiceImpl.findDetailById(idDetail).getQuantityOfAvailable()>=quantity)
+        detailInfoServiceImpl.addQuantityOfDetailsInProject(quantity, idDetail, idProject);
+        else if(quantity==null){
+            model.addAttribute("errorAddQuantityOfDetailInProject_quantityIsNull","Is required");
+            model.addAttribute("errorAddQuantityOfDetailInProject_idDetail",idDetail);
+            model.addAttribute("errorAddQuantityOfDetailInProject_idProject",idProject);
+        }
+        else{ // if quantity==null && getQuantityOfAvailable() < quantity
+            model.addAttribute("errorAddQuantityOfDetailInProject_quantityIsNotCorrect","Quantity isn't correct");
+            model.addAttribute("errorAddQuantityOfDetailInProject_idDetail",idDetail);
+            model.addAttribute("errorAddQuantityOfDetailInProject_idProject",idProject);
+        }
         return showDetails(model);
     }
 }

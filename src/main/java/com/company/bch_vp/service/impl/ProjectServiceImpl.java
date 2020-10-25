@@ -2,6 +2,7 @@ package com.company.bch_vp.service.impl;
 
 import com.company.bch_vp.entity.Detail;
 import com.company.bch_vp.entity.DetailInfo;
+import com.company.bch_vp.entity.IdDetailInfo;
 import com.company.bch_vp.entity.Project;
 import com.company.bch_vp.repository.DetailRepository;
 import com.company.bch_vp.repository.DetailinfoRepository;
@@ -28,8 +29,6 @@ public class ProjectServiceImpl implements ProjectService {
     private DetailRepository detailRepository;
     @Autowired
     private DetailinfoRepository detailinfoRepository;
-    @Autowired
-    private DetailInfoServiceImpl detailInfoServiceImpl;
 
     @PersistenceContext
     private EntityManager entityManger;
@@ -80,5 +79,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findById(Long id) {
         return projectRepository.findById(id).get();
+    }
+
+    @Override
+    public void deleteDetailInProject(Long idDetail, Long idProject) {
+        DetailInfo detailInfo=detailinfoRepository.findById(new IdDetailInfo(idDetail,idProject));
+        detailInfo.getDetail().addAvailableDetails(detailInfo.getQuantityDetailsUsed());
+        detailinfoRepository.delete(detailInfo);
     }
 }

@@ -14,5 +14,6 @@ public interface DetailInfoService {
     Detail findDetailById(Long id);
     Project findProjectById(Long id);
     DetailInfo findDetailInfoById(Long id);
-    public void deleteProjectInDetail(Long idDetail, Long idProject);
+    void deleteProjectInDetail(Long idDetail, Long idProject);
+    void addQuantityOfDetailsInProject(Integer quantity, Long idDetail, Long idProject);
 }

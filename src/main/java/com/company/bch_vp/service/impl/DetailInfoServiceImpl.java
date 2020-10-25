@@ -30,13 +30,18 @@ public class DetailInfoServiceImpl implements DetailInfoService {
     private DetailinfoRepository detailinfoRepository;
 
     @Override
+    public void addQuantityOfDetailsInProject(Integer quantity, Long idDetail, Long idProject) {
+        DetailInfo detailInfo=detailinfoRepository.findById(new IdDetailInfo(idDetail,idProject));
+        detailInfo.getDetail().subtractAvailableDetails(quantity);
+        detailInfo.addQuantityofDetailsUsed(quantity);
+        detailinfoRepository.flush();
+    }
+
+    @Override
     public void deleteProjectInDetail(Long idDetail, Long idProject){
         DetailInfo detailInfo=detailinfoRepository.findById(new IdDetailInfo(idDetail,idProject));
         detailInfo.getDetail().addAvailableDetails(detailInfo.getQuantityDetailsUsed());
-        detailInfo.getProject().getDetailsInfo().remove(detailInfo);
-        detailInfo.getDetail().getDetailsInfo().remove(detailInfo);
         detailinfoRepository.delete(detailInfo);
-
     }
 
     @Override

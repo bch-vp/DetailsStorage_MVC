@@ -39,89 +39,114 @@
     </div>
 </div>
 
-<div class="container" th:if="${!projects.isEmpty()}">
-    <div class="row">
-        <div class="=col">
-            <table class="table table-bordered ">
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">Project Name</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Storage</th>
-                    <th scope="col">Details</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="project: ${projects}">
+<div th:if="${!projects.isEmpty()}">
+    <table class="table table-bordered ">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Project Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Storage</th>
+            <th scope="col">Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project: ${projects}">
 
-                    <td th:if="${project.projectName != null }" th:text="${project.projectName}"/>
-                    <td th:if="${project.projectName == null }"/>
+            <td th:if="${project.projectName != null }" th:text="${project.projectName}"/>
+            <td th:if="${project.projectName == null }"/>
 
-                    <td th:if="${project.type != null }" th:text="${project.type}"/>
-                    <td th:if="${project.type == null }"/>
+            <td th:if="${project.type != null }" th:text="${project.type}"/>
+            <td th:if="${project.type == null }"/>
 
-                    <td th:if="${project.quantity != null }" th:text="${project.quantity}"/>
-                    <td th:if="${project.quantity == null }"/>
+            <td th:if="${project.quantity != null }" th:text="${project.quantity}"/>
+            <td th:if="${project.quantity == null }"/>
 
-                    <td th:if="${project.storage != null }" th:text="${project.storage}"/>
-                    <td th:if="${project.storage == null }"/>
+            <td th:if="${project.storage != null }" th:text="${project.storage}"/>
+            <td th:if="${project.storage == null }"/>
 
 
+            <td>
+                <span style="color: red" th:if="${project.getDetailsInfo().isEmpty()}">There're no details</span>
+                <table class="table table-bordered " th:if="${!project.getDetailsInfo().isEmpty()}">
+                    <tbody>
+                    <tr th:each="detailInfo: ${project.getDetailsInfo()}">
+                        <td>
+                            Quantity in use:
+                            <br>
+                            <span style="color: red" th:if="${detailInfo.quantityDetailsUsed != null }" th:text="${detailInfo.quantityDetailsUsed}"/>
+                        </td>
 
-                    <td>
-                        <span style="color: red" th:if="${project.getDetailsInfo().isEmpty()}">There're no details</span>
-                        <table class="table table-bordered " th:if="${!project.getDetailsInfo().isEmpty()}">
-                            <tbody>
-                            <tr th:each="detailInfo: ${project.getDetailsInfo()}" >
-                                <td>
-                                    Quantity:
-                                    <br>
-                                    <span style="color:red" th:text="${detailInfo.quantityDetailsUsed}"/>
-                                </td>
-                                <td th:if="${detailInfo.detail.detailName != null }"
-                                    th:text="${detailInfo.detail.detailName}"/>
-                                <td th:if="${detailInfo.detail.detailName == null }"/>
+                        <td>
+                            Detail name:
+                            <br>
+                            <span th:if="${detailInfo.detail.detailName != null }" th:text="${detailInfo.detail.detailName}"/>
+                        </td>
 
-                                <td th:if="${detailInfo.detail.type != null }" th:text="${detailInfo.detail.type}"/>
-                                <td th:if="${detailInfo.detail.type == null }"/>
+                        <td>
+                            Type:
+                            <br>
+                            <span th:if="${detailInfo.detail.type != null }" th:text="${detailInfo.detail.type}"/>
+                        </td>
 
-                                <td th:if="${detailInfo.detail.production != null }" th:text="${detailInfo.detail.production}"/>
-                                <td th:if="${detailInfo.detail.production == null }"/>
 
-                                <td th:if="${detailInfo.detail.quantityOfAll != null }" th:text="${detailInfo.detail.quantityOfAll}"/>
-                                <td th:if="${detailInfo.detail.quantityOfAll == null }"/>
+                        <td>
+                            Production:
+                            <br>
+                            <span th:if="${detailInfo.detail.production != null }" th:text="${detailInfo.detail.production}"/>
+                        </td>
 
-                                <td th:if="${detailInfo.detail.price != null }" th:text="${detailInfo.detail.price}+'$'"/>
-                                <td th:if="${detailInfo.detail.price == null }"/>
 
-                                <td th:if="${detailInfo.detail.storage != null }" th:text="${detailInfo.detail.storage}"/>
-                                <td th:if="${detailInfo.detail.storage == null }"/>
+                        <td>
+                            Quantity of all:
+                            <br>
+                            <span th:if="${detailInfo.detail.quantityOfAll != null }" th:text="${detailInfo.detail.quantityOfAll}"/>
+                        </td>
 
-                                <td>
-                                    <form th:action="@{/projects}" method="POST">
-                                        <input type="hidden" th:value="${detailInfo.getId().getProjectId()}" name="idProject"/>
-                                        <input type="hidden" th:value="${detailInfo.getId().getDetailId()}" name="idDetail"/>
-                                        <button type="submit" class="btn btn-primary btn-sm">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
 
-                    <td>
-                        <form th:action="@{/projects}" method="POST">
-                            <input type="hidden" th:value="${project.id}" name="id"/>
-                            <button type="submit" class="btn btn-primary btn-sm">Delete</button>
-                        </form>
-                    </td>
+                        <td>
+                            Quantity of available:
+                            <br>
+                            <span style="color:forestgreen;" th:if="${detailInfo.detail.quantityOfAvailable != null }" th:text="${detailInfo.detail.quantityOfAvailable}"/>
+                        </td>
 
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+
+                        <td>
+                            Price:
+                            <br>
+                            <span th:if="${detailInfo.detail.price != null }" th:text="${detailInfo.detail.price}"/>
+                        </td>
+
+                        <td>
+                            Storage:
+                            <br>
+                            <span th:if="${detailInfo.detail.storage != null }" th:text="${detailInfo.detail.storage}"/>
+                        </td>
+
+
+                        <td>
+                            <form th:action="@{/projects}" method="POST">
+                                <input type="hidden" th:value="${detailInfo.getId().getProjectId()}" name="idProject"/>
+                                <input type="hidden" th:value="${detailInfo.getId().getDetailId()}" name="idDetail"/>
+                                <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+
+            <td>
+                <form th:action="@{/projects}" method="POST">
+                    <input type="hidden" th:value="${project.id}" name="id"/>
+                    <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
 </div>
 
 

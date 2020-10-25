@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +29,12 @@ public class CreateProject {
     private DetailInfoServiceImpl detailInfoServiceImpl;
     @Autowired
     private ProjectServiceImpl projectServiceImpl;
+    @Autowired
+    private EntityManager entityManager;
 
     @GetMapping("/createProject")
     public String createeeProject(Model model){
+        entityManager.clear();
         model.addAttribute("project", new Project());
         model.addAttribute("details", detailServiceImpl.findAll());
         DetailMap detailMap = new DetailMap();
@@ -43,6 +47,7 @@ public class CreateProject {
 
     @PostMapping("/createProject")
     public String createeProject(@Valid Project project, Errors errors, DetailMap detailMap, Model model){
+        entityManager.clear();
         deleteAllNullFields(detailMap);
         if(!checkIsQuantityInFormWasCorrect(detailMap)) {
             model.addAttribute("quantityErrorInForm", "Quantity filled not correct");

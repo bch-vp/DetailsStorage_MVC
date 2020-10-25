@@ -26,9 +26,6 @@ public class DetailServiceImpl implements DetailService {
     @Autowired
     private DetailRepository detailRepository;
 
-    @Autowired
-    private ProjectServiceImpl projectServiceImpls;
-
     @Override
     public Detail saveDetail(Detail detail) {
        return detailRepository.save(detail);

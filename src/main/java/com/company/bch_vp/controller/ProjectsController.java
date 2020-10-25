@@ -27,13 +27,13 @@ public class ProjectsController {
     private DetailInfoServiceImpl detailInfoServiceImpl;
     @Autowired
     private ProjectServiceImpl projectServiceImpl;
+    @Autowired
+    private EntityManager entityManager;
 
 
     @GetMapping(value = "/projects")
     public String showProjects(Model model) {
-        List<DetailInfo> list=detailInfoServiceImpl.findAll();
-        List<Project> listpro=projectServiceImpl.findAll();
-
+        entityManager.clear();
         model.addAttribute("projects",projectServiceImpl.findAll());
         return "projects";
     }
@@ -44,8 +44,8 @@ public class ProjectsController {
         return showProjects(model);
     }
 
-    @PostMapping(value = "/", params = {"idDetail","idProject"})
-    public String deleteProject(Long idDetail, Long idProject,Model model){
+    @PostMapping(value = "/projects", params = {"idDetail","idProject"})
+    public String deleteProjectInDetail(Long idDetail, Long idProject,Model model){
         projectServiceImpl.deleteDetailInProject(idDetail, idProject);
         return showProjects(model);
     }

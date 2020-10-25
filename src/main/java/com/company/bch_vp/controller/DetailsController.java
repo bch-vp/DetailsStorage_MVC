@@ -64,7 +64,7 @@ public class DetailsController {
 
     @PostMapping(value = "/",params ={ "quantity","idDetail"})
     public String addQuantityToDetail(Long idDetail,@RequestParam(required = false) Integer quantity,Model model){
-        if(quantity!=null) {
+        if(quantity!=null && quantity>0) {
             detailServiceImpl.addQuantityOfDetails(idDetail, quantity);
         }
         else{
@@ -74,26 +74,11 @@ public class DetailsController {
         return showDetails(model);
     }
 
-    @PostMapping(value = "/", params = {"idDetail","idProject"})
-    public String deleteProjectInDetail(Long idDetail, Long idProject,Model model){
-        detailInfoServiceImpl.deleteProjectInDetail(idDetail, idProject);
-        return showDetails(model);
-    }
+//    @PostMapping(value = "/", params = {"idDetail","idProject"})
+//    public String deleteProjectInDetail(Long idDetail, Long idProject,Model model){
+//        detailInfoServiceImpl.deleteProjectInDetail(idDetail, idProject);
+//        return showDetails(model);
+//    }
 
-    @PostMapping(value = "/", params = {"quantity","idDetail","idProject"})
-    public String addQuantityOfDetailInProject(@RequestParam(required = false) Integer quantity, Long idDetail, Long idProject,Model model){
-        if(quantity!=null && quantity>0 && detailServiceImpl.findDetailById(idDetail).getQuantityOfAvailable()>=quantity)
-        detailInfoServiceImpl.addQuantityOfDetailsInProject(quantity, idDetail, idProject);
-        else if(quantity==null){
-            model.addAttribute("errorAddQuantityOfDetailInProject_quantityIsNull","Is required");
-            model.addAttribute("errorAddQuantityOfDetailInProject_idDetail",idDetail);
-            model.addAttribute("errorAddQuantityOfDetailInProject_idProject",idProject);
-        }
-        else{ // if quantity==null && getQuantityOfAvailable() < quantity
-            model.addAttribute("errorAddQuantityOfDetailInProject_quantityIsNotCorrect","Quantity isn't correct");
-            model.addAttribute("errorAddQuantityOfDetailInProject_idDetail",idDetail);
-            model.addAttribute("errorAddQuantityOfDetailInProject_idProject",idProject);
-        }
-        return showDetails(model);
-    }
+
 }

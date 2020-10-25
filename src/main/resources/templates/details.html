@@ -138,87 +138,87 @@
             <td th:if="${detail.storage != null }" th:text="${detail.storage}"/>
             <td th:if="${detail.storage == null }"/>
             <td>
-                <span style="color: red" th:if="${detail.getDetailsInfo().isEmpty()}">There're no projects</span>
-                <table class="table table-bordered " th:if="${!detail.getDetailsInfo().isEmpty()}">
-                    <tbody>
-                    <tr th:each="detailInfo: ${detail.getDetailsInfo()}" >
+<!--                <span style="color: red" th:if="${detail.getDetailsInfo().isEmpty()}">There're no projects</span>-->
+<!--                <table class="table table-bordered " th:if="${!detail.getDetailsInfo().isEmpty()}">-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="detailInfo: ${detail.getDetailsInfo()}" >-->
 
-                        <td>
-                            <b>Quantity in use:</b>
-                            <br>
-                            <span style="color:red" th:text="${detailInfo.quantityDetailsUsed}"/>
-                            <form style="width: 200px;" class="form-group" th:action="@{/}" method="POST">
-                                <input type="number" placeholder="Quantity" name="quantity"/>
-                                <input type="hidden" th:value="${detailInfo.id.detailId}" name="idDetail"/>
-                                <input type="hidden" th:value="${detailInfo.id.projectId}" name="idProject"/>
-                                <span style="color:red"
-                                      th:if="${errorAddQuantityOfDetailInProject_quantityIsNull!=null
-                                      && detailInfo.id.detailId.equals(errorAddQuantityOfDetailInProject_idDetail)
-                                      && detailInfo.id.projectId.equals(errorAddQuantityOfDetailInProject_idProject)}">
-                                    <div th:text="${errorAddQuantityOfDetailInProject_quantityIsNull}"/>
-                                </span>
-                                <span style="color:red"
-                                      th:if="${errorAddQuantityOfDetailInProject_quantityIsNotCorrect!=null
-                                      && detailInfo.id.detailId.equals(errorAddQuantityOfDetailInProject_idDetail)
-                                      && detailInfo.id.projectId.equals(errorAddQuantityOfDetailInProject_idProject)}">
-                                    <div th:text="${errorAddQuantityOfDetailInProject_quantityIsNotCorrect}"/>
-                                </span>
-                                <button type="submit" class="btn btn-primary btn-sm">Add</button>
-                            </form>
-                        </td>
+<!--                        <td>-->
+<!--                            <b>Quantity in use:</b>-->
+<!--                            <br>-->
+<!--                            <span style="color:red" th:text="${detailInfo.quantityDetailsUsed}"/>-->
+<!--                            <form style="width: 200px;" class="form-group" th:action="@{/projects}" method="POST">-->
+<!--                                <input type="number" placeholder="Quantity" name="quantity"/>-->
+<!--                                <input type="hidden" th:value="${detailInfo.id.detailId}" name="idDetail"/>-->
+<!--                                <input type="hidden" th:value="${detailInfo.id.projectId}" name="idProject"/>-->
+<!--                                <span style="color:red"-->
+<!--                                      th:if="${errorAddQuantityOfDetailInProject_quantityIsNull!=null-->
+<!--                                      && detailInfo.id.detailId.equals(errorAddQuantityOfDetailInProject_idDetail)-->
+<!--                                      && detailInfo.id.projectId.equals(errorAddQuantityOfDetailInProject_idProject)}">-->
+<!--                                    <div th:text="${errorAddQuantityOfDetailInProject_quantityIsNull}"/>-->
+<!--                                </span>-->
+<!--                                <span style="color:red"-->
+<!--                                      th:if="${errorAddQuantityOfDetailInProject_quantityIsNotCorrect!=null-->
+<!--                                      && detailInfo.id.detailId.equals(errorAddQuantityOfDetailInProject_idDetail)-->
+<!--                                      && detailInfo.id.projectId.equals(errorAddQuantityOfDetailInProject_idProject)}">-->
+<!--                                    <div th:text="${errorAddQuantityOfDetailInProject_quantityIsNotCorrect}"/>-->
+<!--                                </span>-->
+<!--                                <button type="submit" class="btn btn-primary btn-sm">Add</button>-->
+<!--                            </form>-->
+<!--                        </td>-->
 
-                        <td>
-                            <b>Detail Name:</b>
-                            <br>
-                            <span th:if="${detailInfo.detail.detailName != null }" th:text="${detailInfo.detail.detailName}"/>
-                        </td>
+<!--                        <td>-->
+<!--                            <b>Detail Name:</b>-->
+<!--                            <br>-->
+<!--                            <span th:if="${detailInfo.detail.detailName != null }" th:text="${detailInfo.detail.detailName}"/>-->
+<!--                        </td>-->
 
-                        <td>
-                            <b>Type:
-                            <br>
-                            <span th:if="${detailInfo.detail.type != null }" th:text="${detailInfo.detail.type}"/>
-                        </td>
+<!--                        <td>-->
+<!--                            <b>Type:-->
+<!--                            <br>-->
+<!--                            <span th:if="${detailInfo.detail.type != null }" th:text="${detailInfo.detail.type}"/>-->
+<!--                        </td>-->
 
-                        <td>
-                            <b>Production:</b>
-                            <br>
-                            <span th:if="${detailInfo.detail.production != null }" th:text="${detailInfo.detail.production}"/>
-                        </td>
+<!--                        <td>-->
+<!--                            <b>Production:</b>-->
+<!--                            <br>-->
+<!--                            <span th:if="${detailInfo.detail.production != null }" th:text="${detailInfo.detail.production}"/>-->
+<!--                        </td>-->
 
-                        <td>
-                            <b>Quantity of all:</b>
-                            <br>
-                            <span th:if="${detailInfo.detail.quantityOfAll != null }" th:text="${detailInfo.detail.quantityOfAll}"/>
-                        </td>
+<!--                        <td>-->
+<!--                            <b>Quantity of all:</b>-->
+<!--                            <br>-->
+<!--                            <span th:if="${detailInfo.detail.quantityOfAll != null }" th:text="${detailInfo.detail.quantityOfAll}"/>-->
+<!--                        </td>-->
 
-                        <td>
-                            <b>Quantity of available:</b>
-                            <br>
-                            <span style="color: forestgreen" th:if="${detailInfo.detail.quantityOfAvailable != null }" th:text="${detailInfo.detail.quantityOfAvailable}"/>
-                        </td>
+<!--                        <td>-->
+<!--                            <b>Quantity of available:</b>-->
+<!--                            <br>-->
+<!--                            <span style="color: forestgreen" th:if="${detailInfo.detail.quantityOfAvailable != null }" th:text="${detailInfo.detail.quantityOfAvailable}"/>-->
+<!--                        </td>-->
 
-                        <td>
-                            <b>Price:</b>
-                            <br>
-                            <span th:if="${detailInfo.detail.price != null }" th:text="${detailInfo.detail.price}"/>
-                        </td>
+<!--                        <td>-->
+<!--                            <b>Price:</b>-->
+<!--                            <br>-->
+<!--                            <span th:if="${detailInfo.detail.price != null }" th:text="${detailInfo.detail.price}"/>-->
+<!--                        </td>-->
 
-                        <td>
-                            <b>Storage:</b>
-                            <br>
-                            <span th:if="${detailInfo.detail.storage != null }" th:text="${detailInfo.detail.storage}"/>
-                        </td>
+<!--                        <td>-->
+<!--                            <b>Storage:</b>-->
+<!--                            <br>-->
+<!--                            <span th:if="${detailInfo.detail.storage != null }" th:text="${detailInfo.detail.storage}"/>-->
+<!--                        </td>-->
 
-                        <td>
-                            <form th:action="@{/}" method="POST">
-                                <input type="hidden" th:value="${detailInfo.getId().getProjectId()}" name="idProject"/>
-                                <input type="hidden" th:value="${detailInfo.getId().getDetailId()}" name="idDetail"/>
-                                <button type="submit" class="btn btn-primary btn-sm">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+<!--                        <td>-->
+<!--                            <form th:action="@{/projects}" method="POST">-->
+<!--                                <input type="hidden" th:value="${detailInfo.getId().getProjectId()}" name="idProject"/>-->
+<!--                                <input type="hidden" th:value="${detailInfo.getId().getDetailId()}" name="idDetail"/>-->
+<!--                                <button type="submit" class="btn btn-primary btn-sm">Delete</button>-->
+<!--                            </form>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
             </td>
             <td>
                 <form th:action="@{/}" method="POST">

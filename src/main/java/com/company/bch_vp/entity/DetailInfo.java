@@ -47,7 +47,7 @@ public class DetailInfo {
     }
 
     public DetailInfo subtractQuantityofDetailsUsed(Integer quantity){
-        this.quantityDetailsUsed+=quantity;
+        this.quantityDetailsUsed-=quantity;
         return this;
     }
 

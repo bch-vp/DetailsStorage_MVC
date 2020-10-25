@@ -61,17 +61,15 @@ public class DetailInfoServiceImpl implements DetailInfoService {
     }
 
     @Override
-    public Detail findDetailById(Long id) {
-        return detailRepository.findById(id).get();
+    public DetailInfo findById(Long idDetail, Long idProject) {
+        return detailinfoRepository.findById(new IdDetailInfo(idDetail, idProject));
     }
 
     @Override
-    public Project findProjectById(Long id) {
-        return projectRepository.findById(id).get();
-    }
-
-    @Override
-    public DetailInfo findDetailInfoById(Long id) {
-        return null;
+    public void subtractQuantityOfDetailsInProject(Integer quantity, Long idDetail, Long idProject) {
+        DetailInfo detailInfo=detailinfoRepository.findById(new IdDetailInfo(idDetail,idProject));
+        detailInfo.getDetail().addAvailableDetails(quantity);
+        detailInfo.subtractQuantityofDetailsUsed(quantity);
+        detailinfoRepository.flush();
     }
 }

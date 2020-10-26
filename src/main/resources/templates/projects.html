@@ -22,7 +22,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/projects">Projects</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/createProject">CreateProject</a>
             </li>
         </ul>
@@ -179,7 +179,7 @@
                 </td>
 
                 <td>
-                    <form th:action="@{/}" method="POST">
+                    <form th:action="@{/projects}" method="POST">
                         <input type="hidden" th:value="${project.id}" name="idProjectForEdit"/>
                         <button type="submit" class="btn btn-primary btn-sm">Edit</button>
                     </form>

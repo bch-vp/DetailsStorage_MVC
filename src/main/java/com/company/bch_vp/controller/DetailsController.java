@@ -31,6 +31,8 @@ public class DetailsController {
 
     @GetMapping("/")
     public String showDetails(Model model) {
+
+
         entityManager.clear();
         model.addAttribute("detail",new Detail());
         model.addAttribute("details",detailServiceImpl.findAll());
@@ -62,7 +64,7 @@ public class DetailsController {
 
 
     @PostMapping(value = "/", params = {"idDetailForEdit","detailName", "type", "production", "price", "storage"})
-    public String formEditDetail(@RequestParam(name = "idDetailForEdit", required = true) Long idDetail,
+    public String editDetail(@RequestParam(name = "idDetailForEdit", required = true) Long idDetail,
                                  @RequestParam(name = "detailName", required = false) String detailName,
                                  @RequestParam(name = "type", required = false) String type,
                                  @RequestParam(name = "production", required = false) String production,

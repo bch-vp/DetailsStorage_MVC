@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Details Storage</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Details <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/projects">Projects</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/createProject">CreateProject</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<br><br>
+
+
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <form class="col-12" method="POST" th:action="@{/editDetail}">
+
+            <div class="form-group " style="width:40%;">
+                <input type="text" class="form-control" th:placeholder="${detail.detailName}" th:field="${detail.detailName}" th:if="${!detail.detailName.isEmpty()}"/>
+                <input style="color: red" type="text" class="form-control" placeholder="Detail name isn't represented" th:field="${detail.detailName}" th:if="${detail.detailName.isEmpty()}"/>
+<!--                <span style="color:red" class="validationError"-->
+<!--                      th:if="${#fields.hasErrors('detailName')}"-->
+<!--                      th:errors="*{detailName}">-->
+<!--                </span>-->
+            </div>
+
+            <div class="form-group " style="width:40%;">
+                <input type="text" class="form-control" th:placeholder="${detail.type}" th:field="${detail.type}" th:if="${!detail.type.isEmpty()}"/>
+                <input style="color: red" type="text" class="form-control" placeholder="Type isn't represented" th:field="${detail.type}" th:if="${detail.type.isEmpty()}"/>
+            </div>
+
+            <div class="form-group " style="width:40%;">
+                <input type="text" class="form-control" th:placeholder="${detail.production}" th:field="${detail.production}" th:if="${!detail.production.isEmpty()}"/>
+                <input  type="text" class="form-control" placeholder="Production isn't represented" th:field="${detail.production}" th:if="${detail.production.isEmpty()}"/>
+
+            </div>
+
+            <div class="form-group " style="width:40%;">
+                <input type="number" class="form-control" th:placeholder="${detail.price}" th:field="${detail.price}" th:if="${detail.price!=null}"/>
+                <input style="color: red" type="number" class="form-control" placeholder="Price isn't represented" th:field="${detail.price}" th:if="${detail.price==null}"/>
+            </div>
+
+            <div class="form-group " style="width:40%;">
+                <input type="number" class="form-control" th:placeholder="${detail.storage}" th:field="${detail.storage}" th:if="${detail.storage!=null}"/>
+                <input style="color: red" type="number" class="form-control" placeholder="Storage isn't represented" th:field="${detail.storage}"th:if="${detail.storage==null}"/>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

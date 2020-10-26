@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 public class DetailsController {
@@ -25,18 +26,6 @@ public class DetailsController {
     private ProjectServiceImpl projectServiceImpl;
     @PersistenceContext
     private EntityManager entityManager;
-//
-//    @GetMapping("/fill")
-//    public String fillDetails(Model model) {
-//        detailServiceImpl.saveDetail(new Detail("det1","aeg","faefa",50,(double)43,"Aeg"));
-//        //detailServiceImpl.saveDetail(new Detail("det2","aeg","faefa",50,(double)43,"Aeg"));
-//        projectServiceImpl.saveProject(new Project("pr1","age",30,"aegf"));
-//        projectServiceImpl.saveProject(new Project("pr2","age",30,"aegf"));
-//        detailInfoServiceImpl.addDetail(20,(long)1,(long)1);
-//        detailInfoServiceImpl.addDetail(20,(long)1,(long)2);
-//
-//        return showDetails(model);
-//    }
 
     @GetMapping("/")
     public String showDetails(Model model) {
@@ -74,11 +63,48 @@ public class DetailsController {
         return showDetails(model);
     }
 
-//    @PostMapping(value = "/", params = {"idDetail","idProject"})
-//    public String deleteProjectInDetail(Long idDetail, Long idProject,Model model){
-//        detailInfoServiceImpl.deleteProjectInDetail(idDetail, idProject);
-//        return showDetails(model);
-//    }
+    @PostMapping(value = "/", params = {"quantity","idDetail","idProject","button"})
+    public String addQuantityOfUsedDetailInProject(@RequestParam(required = false) Integer quantity,
+                                               Long idDetail,
+                                               Long idProject,
+                                               String button,
+                                               Model model){
+        if(button.equals("add") && quantity!=null && quantity>0 && detailServiceImpl.findDetailById(idDetail).getQuantityOfAvailable()>=quantity){
+            detailInfoServiceImpl.addQuantityOfDetailsInProject(quantity, idDetail, idProject);
+        }
+        else if(button.equals("subtract") && quantity!=null && detailInfoServiceImpl.findById(idDetail,idProject).getQuantityDetailsUsed()>=quantity){
+            detailInfoServiceImpl.subtractQuantityOfDetailsInProject(quantity, idDetail, idProject);
+        }
+        else if(quantity==null){
+            model.addAttribute("errorAddQuantityOfDetailInProject_quantityIsNull","Is required");
+            model.addAttribute("errorAddQuantityOfDetailInProject_idDetail",idDetail);
+            model.addAttribute("errorAddQuantityOfDetailInProject_idProject",idProject);
+        }
+        else{ // if quantity==null && getQuantityOfAvailable() < quantity
+            model.addAttribute("errorAddQuantityOfDetailInProject_quantityIsNotCorrect","Quantity isn't correct");
+            model.addAttribute("errorAddQuantityOfDetailInProject_idDetail",idDetail);
+            model.addAttribute("errorAddQuantityOfDetailInProject_idProject",idProject);
+        }
+        return showDetails(model);
+    }
+
+    @PostMapping(value = "/", params = {"idDetail","idProject"})
+    public String deleteDetailInProject(Long idDetail, Long idProject,Model model){
+        detailInfoServiceImpl.deleteProjectInDetail(idDetail, idProject);
+        return showDetails(model);
+    }
+
+    @GetMapping(value="/editDetail", params = {"idDetailForEdit"})
+    public String formEditDetail(@RequestParam("idDetailForEdit") Long idDetail, Model model){
+        model.addAttribute("detail", detailServiceImpl.findDetailById(idDetail));
+        return "editDetail";
+    }
+
+    @GetMapping(value="/editDetail")
+    public String editDetail(@RequestParam Map<String,Object> map, Model model){
+        //?
+        return "editDetail";
+    }
 
 
 }

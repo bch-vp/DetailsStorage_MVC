@@ -121,7 +121,7 @@
                             </td>
 
                             <td style="border-width: 2px; border-color: skyblue">
-                                <b>Type:
+                                <b>Type:</b>
                                     <br>
                                     <span th:if="${detailInfo.detail.type != null }"
                                           th:text="${detailInfo.detail.type}"/>
@@ -178,7 +178,12 @@
                     </table>
                 </td>
 
-                <td >
+                <td>
+                    <form th:action="@{/}" method="POST">
+                        <input type="hidden" th:value="${project.id}" name="idProjectForEdit"/>
+                        <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                    </form>
+                    <br>
                     <form th:action="@{/projects}" method="POST">
                         <input type="hidden" th:value="${project.id}" name="id"/>
                         <button type="submit" class="btn btn-primary btn-sm">Delete project</button>

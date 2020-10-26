@@ -97,9 +97,7 @@
                             <table class="table table-bordered " th:if="${!details.isEmpty()}">
                                 <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">
-                                        Quantity
-                                    </th>
+                                    <th scope="col">Quantity</th>
                                     <th scope="col">Detail Name</th>
                                     <th scope="col">Quantity Of Available</th>
                                     <th scope="col">Price</th>
@@ -112,7 +110,7 @@
                                     <input hidden th:name="|details[${itemStat.index}].id|"
                                            th:value="${detail.getId()}"/>
                                     <td>
-                                        <div class="form-group " style="width:50%;">
+                                        <div class="form-group " >
                                             <input type="number" class="form-control" placeholder="Quantity"
                                                    th:field="*{details[__${itemStat.index}__].quantity}"/>
                                         </div>
@@ -120,8 +118,7 @@
                                     <td th:if="${detail.detailName != null }" th:text="${detail.detailName}"/>
                                     <td th:if="${detail.detailName == null }"/>
 
-                                    <td th:if="${detail.quantityOfAvailable != null }"
-                                        th:text="${detail.quantityOfAvailable}"/>
+                                    <td style="color: forestgreen" th:if="${detail.quantityOfAvailable != null }" th:text="${detail.quantityOfAvailable}">
                                     <td th:if="${detail.quantityOfAvailable == null }"/>
 
                                     <td th:if="${detail.price != null }" th:text="${detail.price}+'$'"/>

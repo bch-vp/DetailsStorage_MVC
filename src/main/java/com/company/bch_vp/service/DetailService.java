@@ -12,5 +12,6 @@ public interface DetailService {
     List<Detail> findAll();
     Detail findDetailById(Long id);
     void addAvailableDetails(Long id, Integer quantity);
-    public void addQuantityOfDetails(Long id, Integer quantity) ;
+    public void addQuantityOfDetails(Long id, Integer quantity);
+    void sendChangesImmediately();
 }

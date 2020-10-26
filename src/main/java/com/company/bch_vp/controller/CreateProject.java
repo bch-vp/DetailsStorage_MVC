@@ -52,7 +52,7 @@ public class CreateProject {
         if(!checkIsQuantityInFormWasCorrect(detailMap)) {
             model.addAttribute("quantityErrorInForm", "Quantity filled not correct");
         }else if(detailMap.getDetails().isEmpty()) {
-            model.addAttribute("quantityError", "Quantity is required");
+            model.addAttribute("quantityError", "Quantity is required (at least 1)");
         }else if(!errors.hasErrors()){
             Long idProject=projectServiceImpl.saveProject(project).getId();
             detailMap.getDetails()

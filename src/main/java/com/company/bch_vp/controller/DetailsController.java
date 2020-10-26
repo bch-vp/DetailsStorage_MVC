@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Controller
@@ -45,9 +47,45 @@ public class DetailsController {
         return "details";
     }
 
-    @PostMapping(value = "/", params = "idDetail")
-    public String deleteDetail(Long idDetail,Model model){
+    @PostMapping(value = "/", params = {"idDetailForDelete"})
+    public String deleteDetail(@RequestParam (name = "idDetailForDelete") Long idDetail,Model model){
         detailServiceImpl.deleteDetailById(idDetail);
+        return showDetails(model);
+    }
+
+
+    @PostMapping(value = "/", params = {"idDetailForEdit"})
+    public String formEditDetail(@RequestParam (name = "idDetailForEdit") Long idDetail,Model model){
+        model.addAttribute("detail",detailServiceImpl.findDetailById(idDetail));
+        return "editDetail";
+    }
+
+
+    @PostMapping(value = "/", params = {"idDetailForEdit","detailName", "type", "production", "price", "storage"})
+    public String formEditDetail(@RequestParam(name = "idDetailForEdit", required = true) Long idDetail,
+                                 @RequestParam(name = "detailName", required = false) String detailName,
+                                 @RequestParam(name = "type", required = false) String type,
+                                 @RequestParam(name = "production", required = false) String production,
+                                 @RequestParam(name = "price", required = false) Double price,
+                                 @RequestParam(name = "storage", required = false) String storage,
+                                 Model model) {
+        Detail detail=detailServiceImpl.findDetailById(idDetail);
+        if(!detailName.isEmpty()){
+            detail.setDetailName(detailName);
+        }
+        if(!type.isEmpty()){
+            detail.setType(type);
+        }
+        if (!production.isEmpty()) {
+            detail.setProduction(production);
+        }
+        if(price!=null){
+            detail.setPrice(price);
+        }
+        if(!storage.isEmpty()){
+            detail.setStorage(storage);
+        }
+        detailServiceImpl.sendChangesImmediately();
         return showDetails(model);
     }
 
@@ -93,18 +131,5 @@ public class DetailsController {
         detailInfoServiceImpl.deleteProjectInDetail(idDetail, idProject);
         return showDetails(model);
     }
-
-    @GetMapping(value="/editDetail", params = {"idDetailForEdit"})
-    public String formEditDetail(@RequestParam("idDetailForEdit") Long idDetail, Model model){
-        model.addAttribute("detail", detailServiceImpl.findDetailById(idDetail));
-        return "editDetail";
-    }
-
-    @GetMapping(value="/editDetail")
-    public String editDetail(@RequestParam Map<String,Object> map, Model model){
-        //?
-        return "editDetail";
-    }
-
 
 }

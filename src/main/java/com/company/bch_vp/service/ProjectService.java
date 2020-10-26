@@ -11,4 +11,5 @@ public interface ProjectService {
     List<Project> findAll();
     Project findById(Long id);
     void deleteDetailInProject(Long idDetail, Long idProject);
+    void sendChangesImmediately();
 }

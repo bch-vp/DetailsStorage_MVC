@@ -16,4 +16,5 @@ public interface DetailInfoService {
     void addQuantityOfDetailsInProject(Integer quantity, Long idDetail, Long idProject);
     DetailInfo findById(Long idDetail, Long idProject);
     void subtractQuantityOfDetailsInProject(Integer quantity, Long idDetail, Long idProject);
+    void sendChangesImmediately();
 }

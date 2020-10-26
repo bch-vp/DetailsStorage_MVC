@@ -63,6 +63,11 @@ public class DetailServiceImpl implements DetailService {
     }
 
     @Override
+    public void sendChangesImmediately() {
+        detailRepository.flush();
+    }
+
+    @Override
     public void addAvailableDetails(Long id, Integer quantity) {
         detailRepository.save(detailRepository.findById(id).get().addAvailableDetails(quantity));
     }

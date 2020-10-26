@@ -82,6 +82,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void sendChangesImmediately() {
+        projectRepository.flush();
+    }
+
+    @Override
     public void deleteDetailInProject(Long idDetail, Long idProject) {
         DetailInfo detailInfo=detailinfoRepository.findById(new IdDetailInfo(idDetail,idProject));
         detailInfo.getDetail().addAvailableDetails(detailInfo.getQuantityDetailsUsed());

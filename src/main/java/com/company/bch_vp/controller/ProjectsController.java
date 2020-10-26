@@ -60,7 +60,7 @@ public class ProjectsController {
         if(button.equals("add") && quantity!=null && quantity>0 && detailServiceImpl.findDetailById(idDetail).getQuantityOfAvailable()>=quantity){
             detailInfoServiceImpl.addQuantityOfDetailsInProject(quantity, idDetail, idProject);
         }
-        else if(button.equals("subtract") && quantity!=null && detailInfoServiceImpl.findById(idDetail,idProject).getQuantityDetailsUsed()>=quantity){
+        else if(button.equals("subtract") && quantity!=null && quantity>0 && detailInfoServiceImpl.findById(idDetail,idProject).getQuantityDetailsUsed()>=quantity){
             detailInfoServiceImpl.subtractQuantityOfDetailsInProject(quantity, idDetail, idProject);
         }
         else if(quantity==null){

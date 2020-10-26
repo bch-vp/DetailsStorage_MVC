@@ -72,4 +72,9 @@ public class DetailInfoServiceImpl implements DetailInfoService {
         detailInfo.subtractQuantityofDetailsUsed(quantity);
         detailinfoRepository.flush();
     }
+
+    @Override
+    public void sendChangesImmediately() {
+        detailinfoRepository.flush();
+    }
 }

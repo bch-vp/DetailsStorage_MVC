@@ -50,7 +50,6 @@
 <div class="container h-100">
     <div class="row h-100 justify-content-center align-items-center">
         <form class="col-12" method="POST" th:action="@{/}" th:object="${detail}">
-
             <div class="form-group " style="width:40%;">
                 <input type="text" class="form-control" placeholder="Detail Name (required)" th:field="*{detailName}"/>
                 <span style="color:red" class="validationError"
@@ -154,28 +153,28 @@
 
                 <td rowspan="2">
                     <div th:if="${detail.getDetailsInfo().isEmpty()}">
+                        <form th:action="@{/}" method="POST">
+                        <input type="hidden" th:value="${detail.id}" name="idDetailFor_AddProjectInDetail"/>
+                        <button type="submit" class="btn btn-primary btn-sm">Add project</button>
+                    </form>
+                        <br>
                         <b>Projects:</b>
                         <br>
                     <span style="color: red" >
                         There're no projects
-                        <br><br><br><br><br><br>
+                        <br><br><br><br><br>
                     </span>
                     </div>
 
-
+                    <form th:if="${!detail.getDetailsInfo().isEmpty()}" th:action="@{/}" method="POST">
+                        <input type="hidden" th:value="${detail.id}" name="idDetailFor_AddProjectInDetail"/>
+                        <button type="submit" class="btn btn-primary btn-sm">Add project</button>
+                    </form>
                     <table th:if="${!detail.getDetailsInfo().isEmpty()}" style="border-style: none" class="table table-bordered">
                         <tbody style="border-style: none">
                         <tr style="border-style: none">
                             <td style="border-style: none">
-                                <form th:action="@{/}" method="POST">
-                                    <input type="hidden" th:value="${detail.id}" name="idDetailForEdit"/>
-                                    <button type="submit" class="btn btn-primary btn-sm">Add project</button>
-                                </form>
-                                <br>
-                                <form th:action="@{/}" method="POST">
-                                    <input type="hidden" th:value="${detail.id}" name="idDetailForEdit"/>
-                                    <button type="submit" class="btn btn-primary btn-sm">Delete project</button>
-                                </form>
+
                             </td>
                             <td style="border-style: none">
                                 <b>Projects:</b>

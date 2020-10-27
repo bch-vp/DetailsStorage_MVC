@@ -1,6 +1,8 @@
 package com.company.bch_vp.controller;
 
 import com.company.bch_vp.entity.Detail;
+import com.company.bch_vp.entity.DetailForm;
+import com.company.bch_vp.entity.DetailMap;
 import com.company.bch_vp.entity.Project;
 import com.company.bch_vp.service.impl.DetailInfoServiceImpl;
 import com.company.bch_vp.service.impl.DetailServiceImpl;
@@ -16,7 +18,9 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class DetailsController {
@@ -29,10 +33,8 @@ public class DetailsController {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @GetMapping("/")
+    @GetMapping( value="/")
     public String showDetails(Model model) {
-
-
         entityManager.clear();
         model.addAttribute("detail",new Detail());
         model.addAttribute("details",detailServiceImpl.findAll());
@@ -62,15 +64,14 @@ public class DetailsController {
         return "editDetail";
     }
 
-
     @PostMapping(value = "/", params = {"idDetailForEdit","detailName", "type", "production", "price", "storage"})
     public String editDetail(@RequestParam(name = "idDetailForEdit", required = true) Long idDetail,
-                                 @RequestParam(name = "detailName", required = false) String detailName,
-                                 @RequestParam(name = "type", required = false) String type,
-                                 @RequestParam(name = "production", required = false) String production,
-                                 @RequestParam(name = "price", required = false) Double price,
-                                 @RequestParam(name = "storage", required = false) String storage,
-                                 Model model) {
+                             @RequestParam(name = "detailName", required = false) String detailName,
+                             @RequestParam(name = "type", required = false) String type,
+                             @RequestParam(name = "production", required = false) String production,
+                             @RequestParam(name = "price", required = false) Double price,
+                             @RequestParam(name = "storage", required = false) String storage,
+                             Model model) {
         Detail detail=detailServiceImpl.findDetailById(idDetail);
         if(!detailName.isEmpty()){
             detail.setDetailName(detailName);
@@ -91,7 +92,83 @@ public class DetailsController {
         return showDetails(model);
     }
 
-    @PostMapping(value = "/",params ={ "quantity","idDetail"})
+    @PostMapping(value = "/", params = {"idDetailFor_AddProjectInDetail"})
+    public String formAddProjectInDetail(@RequestParam (name = "idDetailFor_AddProjectInDetail") Long idDetail,Model model){
+        List<Project> projects=projectServiceImpl.findAll();
+        Detail detail=detailServiceImpl.findDetailById(idDetail);
+
+        //delete projects which detail already contain
+        detail.getDetailsInfo()
+                .stream()
+                .forEach(detailInfo -> {
+                    if(projects.contains(detailInfo.getProject())){
+                        projects.remove(detailInfo.getProject());
+                    }
+                });
+
+        DetailMap detailMap = new DetailMap();
+        int n=projectServiceImpl.findAll().size()-detailServiceImpl.findDetailById(idDetail).getDetailsInfo().size();
+        for (int i = 0; i < n; i++) {
+            detailMap.addDetail(new DetailForm());
+        }
+
+        model.addAttribute("detailMap", detailMap);
+        model.addAttribute("detail",detail);
+        model.addAttribute("projects",projects);
+        return "addProjectInDetail";
+    }
+
+    @PostMapping(value = "/",params = {"idDetailFor_AddProjectInDetail","add"})
+    public String addProjectInDetail(@RequestParam (name = "idDetailFor_AddProjectInDetail",required = true) Long idDetail,
+                                     @RequestParam (name = "add",required = true) String add,
+                                     DetailMap detailMap,
+                                     Model model){
+        entityManager.clear();
+        Detail detail=detailServiceImpl.findDetailById(idDetail);
+        deleteAllNullFields(detailMap);
+
+        //rewrite if minus
+        for (DetailForm detailForm : detailMap.getDetails())
+            if (detailForm.getQuantity() <= 0) {
+                model.addAttribute("errorQuantity", "Quantity filled not correct");
+                return formAddProjectInDetail(idDetail, model);
+            }
+        ///
+
+        int quantityOfDetails= detailMap.getDetails()
+                .stream()
+                .mapToInt(DetailForm::getQuantity)
+                .sum();
+        if(quantityOfDetails<=detail.getQuantityOfAvailable()){
+            detailMap.getDetails()
+                    .stream()
+                    .forEach(detailForm -> {
+                        detailInfoServiceImpl.addDetail(detailForm.getQuantity(),idDetail,detailForm.getId());
+                    });
+            return showDetails(model);
+        }
+        //else
+        model.addAttribute("errorQuantity","Quantity filled not correct");
+        return formAddProjectInDetail(idDetail,model);
+    }
+
+
+
+
+
+
+    private DetailMap deleteAllNullFields(DetailMap detailMap){
+        detailMap.setDetails(detailMap.getDetails()
+                .stream()
+                .filter(detail-> detail.getQuantity()!=null)
+                .collect(Collectors.toList()));
+        return detailMap;
+    }
+
+
+
+
+    @PostMapping(value = "/",params ={"quantity","idDetail"})
     public String addQuantityToDetail(Long idDetail,@RequestParam(required = false) Integer quantity,Model model){
         if(quantity!=null && quantity>0) {
             detailServiceImpl.addQuantityOfDetails(idDetail, quantity);

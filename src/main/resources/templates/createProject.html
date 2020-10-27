@@ -110,7 +110,7 @@
                                     <input hidden th:name="|details[${itemStat.index}].id|"
                                            th:value="${detail.getId()}"/>
                                     <td>
-                                        <div class="form-group " >
+                                        <div class="form-group ">
                                             <input type="number" class="form-control" placeholder="Quantity"
                                                    th:field="*{details[__${itemStat.index}__].quantity}"/>
                                         </div>
@@ -118,7 +118,8 @@
                                     <td th:if="${detail.detailName != null }" th:text="${detail.detailName}"/>
                                     <td th:if="${detail.detailName == null }"/>
 
-                                    <td style="color: forestgreen" th:if="${detail.quantityOfAvailable != null }" th:text="${detail.quantityOfAvailable}">
+                                    <td style="color: forestgreen" th:if="${detail.quantityOfAvailable != null }"
+                                        th:text="${detail.quantityOfAvailable}">
                                     <td th:if="${detail.quantityOfAvailable == null }"/>
 
                                     <td th:if="${detail.price != null }" th:text="${detail.price}+'$'"/>

@@ -42,6 +42,7 @@
 </div>
 
 <div th:if="${!projects.isEmpty()}">
+    <br><br>
     <table  class="table table-bordered">
         <div th:each="project: ${projects}">
             <tbody >
@@ -67,50 +68,73 @@
                 <td >
                     <b>Storage:</b>
                     <br>
-                    <span th:if="${project.projectName != null }" th:text="${project.projectName}"/>
+                    <span th:if="${project.storage != null }" th:text="${project.storage}"/>
                 </td>
 
-                <td rowspan="2" >
-                    <b>Details:</b>
-                    <br><br>
-                    <span style="color: red" th:if="${project.getDetailsInfo().isEmpty()}">
+
+                <td rowspan="2">
+                    <div th:if="${project.getDetailsInfo().isEmpty()}">
+                        <b>Details:</b>
+                        <br>
+                        <span style="color: red" >
                         There're no details
                         <br><br><br><br><br><br>
                     </span>
+                    </div>
 
-                    <table style="border-width: 2px; border-color: skyblue" class="table table-bordered " th:if="${!project.getDetailsInfo().isEmpty()}">
-                        <tbody>
-                        <tr style="border-width: 2px; border-color: skyblue" th:each="detailInfo: ${project.getDetailsInfo()}">
-                            <td style="border-width: 2px; border-color: skyblue">
-                                <b>Quantity in use:</b>
+
+                    <table th:if="${!project.getDetailsInfo().isEmpty()}" style="border-style: none" class="table table-bordered">
+                        <tbody style="border-style: none">
+                        <tr style="border-style: none">
+                            <td style="border-style: none">
+                                <form th:action="@{/}" method="POST">
+                                    <input type="hidden" th:value="${project.id}" name="idDetailForEdit"/>
+                                    <button type="submit" class="btn btn-primary btn-sm">Add project</button>
+                                </form>
                                 <br>
-                                <span style="color:red" th:text="${detailInfo.quantityDetailsUsed}"/>
-                                <form style="width: 200px;" class="form-group" th:action="@{/projects}"
-                                      method="POST">
-                                    <input type="number" placeholder="Quantity" name="quantity"/>
-                                    <input type="hidden" th:value="${detailInfo.id.detailId}" name="idDetail"/>
-                                    <input type="hidden" th:value="${detailInfo.id.projectId}" name="idProject"/>
-                                    <span style="color:red"
-                                          th:if="${errorAddQuantityOfDetailInProject_quantityIsNull!=null
+                                <form th:action="@{/}" method="POST">
+                                    <input type="hidden" th:value="${project.id}" name="idDetailForEdit"/>
+                                    <button type="submit" class="btn btn-primary btn-sm">Delete project</button>
+                                </form>
+                            </td>
+                            <td style="border-style: none">
+                                <b>Projects:</b>
+                                <table style="border-width: 2px; border-color: skyblue" class="table table-bordered ">
+                                    <tbody>
+                                    <tr style="border-width: 2px; border-color: skyblue"
+                                        th:each="detailInfo: ${project.getDetailsInfo()}">
+                                        <td style="border-width: 2px; border-color: skyblue">
+                                            <b>Quantity in use:</b>
+                                            <span style="color:red" th:text="${detailInfo.quantityDetailsUsed}"/>
+                                            <form style="width: min-content;" class="form-group" th:action="@{/}"
+                                                  method="POST">
+                                                <input style="width:140px" type="number" placeholder="Quantity"
+                                                       name="quantity"/>
+                                                <input type="hidden" th:value="${detailInfo.id.detailId}"
+                                                       name="idDetail"/>
+                                                <input type="hidden" th:value="${detailInfo.id.projectId}"
+                                                       name="idProject"/>
+                                                <span style="color:red"
+                                                      th:if="${errorAddQuantityOfDetailInProject_quantityIsNull!=null
                                       && detailInfo.id.detailId.equals(errorAddQuantityOfDetailInProject_idDetail)
                                       && detailInfo.id.projectId.equals(errorAddQuantityOfDetailInProject_idProject)}">
                                     <div th:text="${errorAddQuantityOfDetailInProject_quantityIsNull}"/>
                                 </span>
-                                    <span style="color:red"
-                                          th:if="${errorAddQuantityOfDetailInProject_quantityIsNotCorrect!=null
+                                                <span style="color:red"
+                                                      th:if="${errorAddQuantityOfDetailInProject_quantityIsNotCorrect!=null
                                       && detailInfo.id.detailId.equals(errorAddQuantityOfDetailInProject_idDetail)
                                       && detailInfo.id.projectId.equals(errorAddQuantityOfDetailInProject_idProject)}">
                                     <div th:text="${errorAddQuantityOfDetailInProject_quantityIsNotCorrect}"/>
                                 </span>
-                                    <button type="submit" name="button" value="add" class="btn btn-primary btn-sm">
-                                        Add
-                                    </button>
-                                    <button type="submit" name="button" value="subtract"
-                                            class="btn btn-primary btn-sm">
-                                        Subtract
-                                    </button>
-                                </form>
-                            </td>
+
+                                                <button type="submit" name="button" value="add"
+                                                        class="btn btn-primary btn-sm">Add
+                                                </button>
+                                                <button type="submit" name="button" value="subtract"
+                                                        class="btn btn-primary btn-sm">Subtract
+                                                </button>
+                                            </form>
+                                        </td>
 
 
                             <td style="border-width: 2px; border-color: skyblue">
@@ -172,6 +196,10 @@
                                            name="idDetail"/>
                                     <button type="submit" class="btn btn-primary btn-sm">Delete</button>
                                 </form>
+                            </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                         </tbody>

@@ -96,7 +96,22 @@
 <div th:if="${!details.isEmpty()}">
     <table class="table table-bordered">
         <div th:each="detail: ${details}">
-            <tbody>
+
+
+
+            <table style="border-style: none" class="table table-bordered">
+                <tbody style="border-style: none">
+                <tr style="border-style: none">
+                    <td style="border-style: none">
+
+                    </td>
+                </tr>
+                </tbody>
+
+
+
+
+                <tbody>
             <tr>
                 <td>
                     <b>Detail name:</b>
@@ -280,9 +295,11 @@
 
             </tr>
             </tbody>
+            </table>
         </div>
     </table>
 </div>
+
 
 
 </body>

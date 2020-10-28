@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Details Storage</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Details <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/projects">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/createProject">CreateProject</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<br><br>
+
+
+<div class="container ">
+    <form th:action="@{/projects}" method="get">
+        <button class="btn btn-secondary-sm btn-sm" type="submit"><- Go back</button>
+    </form>
+    <div th:if="${details.isEmpty()}">
+    <span style="color:red;">
+        Can't add any detail<br>Because these project has all details<br>Pleae construct or delete at least 1 detail
+    </span>
+    </div>
+
+    <div th:if="${!details.isEmpty()}">
+        <br><br>
+        <span style="color: red" th:if="${errorQuantity!=null}" th:text="${errorQuantity}"/>
+        <form class="col-12" method="POSt" th:action="@{/projects}" th:object="${detailMap}">
+            <input hidden th:name="idProjectFor_AddDetailInProject" th:value="${project.getId()}"/>
+            <input hidden th:name="add" th:value="add"/>
+            <div class="row  justify-content-center align-items-center">
+                <table th:if="${!details.isEmpty()}" class="table table-bordered">
+                    <tbody>
+                    <tr style=" border-color: skyblue" th:each="detail,itemStat: ${details}">
+                        <input hidden th:name="|details[${itemStat.index}].id|" th:value="${detail.getId()}"/>
+                        <td style="border-color: skyblue; width: 200px">
+                            <b>Quantity of available:</b>
+                            <br>
+                            <span th:text="${detail.quantityOfAvailable}" style="color: forestgreen"/>
+                            <div class="form-group">
+                                <input type="number" class="form-control" placeholder="Quantity"
+                                       th:field="*{details[__${itemStat.index}__].quantity}"/>
+                            </div>
+                        </td>
+
+                        <td style="border-width: 2px; border-color: skyblue">
+                            <b>Detail Name:</b>
+                            <br>
+                            <span th:if="${detail.detailName != null }"
+                                  th:text="${detail.detailName}"/>
+                        </td>
+
+                        <td style="border-width: 2px; border-color: skyblue">
+                            <b>Type:</b>
+                            <br>
+                            <span th:if="${detail.type != null }"
+                                  th:text="${detail.type}"/>
+                        </td>
+
+                        <td style="border-width: 2px; border-color: skyblue">
+                            <b>Production:</b>
+                            <br>
+                            <span th:if="${detail.production != null }"
+                                  th:text="${detail.production}"/>
+                        </td>
+
+                        <td style="border-width: 2px; border-color: skyblue">
+                            <b>Quantity of all:</b>
+                            <br>
+                            <span th:if="${detail.quantityOfAll != null }"
+                                  th:text="${detail.quantityOfAll}"/>
+                        </td>
+
+                        <td style="border-width: 2px; border-color: skyblue">
+                            <b>Quantity of available:</b>
+                            <br>
+                            <span style="color: forestgreen"
+                                  th:if="${detail.quantityOfAvailable != null }"
+                                  th:text="${detail.quantityOfAvailable}"/>
+                        </td>
+
+                        <td style="border-width: 2px; border-color: skyblue">
+                            <b>Price:</b>
+                            <br>
+                            <span th:if="${detail.price != null }"
+                                  th:text="${detail.price}"/>
+                        </td>
+
+                        <td style="border-width: 2px; border-color: skyblue">
+                            <b>Storage:</b>
+                            <br>
+                            <span th:if="${detail.storage != null }"
+                                  th:text="${detail.storage}"/>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                </td>
+
+                </tr>
+                </tbody>
+                </table>
+            </div>
+            <div style="width: .7em; width: 1ch; text-align: center;word-wrap: break-word;">
+                <button type="submit" class="btn btn-primary btn-sm">Add projects</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

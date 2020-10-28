@@ -28,6 +28,7 @@ public class Detail {
     @NotNull(message="Quantity is required")
     private Integer quantityOfAll;
     private Integer quantityOfAvailable;
+    @NotNull(message="Price is required")
     private Double price;
     @NotBlank(message="Storage is required")
     private String storage;

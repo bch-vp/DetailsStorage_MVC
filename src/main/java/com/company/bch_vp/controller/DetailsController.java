@@ -139,7 +139,7 @@ public class DetailsController {
                 .stream()
                 .mapToInt(DetailForm::getQuantity)
                 .sum();
-        if(quantityOfDetails<=detail.getQuantityOfAvailable()){
+        if(quantityOfDetails<=detail.getQuantityOfAvailable() && !detailMap.getDetails().isEmpty()){
             detailMap.getDetails()
                     .stream()
                     .forEach(detailForm -> {
@@ -164,8 +164,6 @@ public class DetailsController {
                 .collect(Collectors.toList()));
         return detailMap;
     }
-
-
 
 
     @PostMapping(value = "/",params ={"quantity","idDetail"})

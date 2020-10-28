@@ -71,7 +71,7 @@ public class CreateProject {
         for(DetailForm detailForm: detailMap.getDetails()){
             Integer quantityForm=detailForm.getQuantity();
             Integer quantityOfAvailableInDetail=detailServiceImpl.findDetailById(detailForm.getId()).getQuantityOfAvailable();
-            if(quantityForm>quantityOfAvailableInDetail){
+            if(quantityForm>quantityOfAvailableInDetail || quantityForm<=20){
                 return false;
             }
         }

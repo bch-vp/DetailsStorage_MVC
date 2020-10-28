@@ -36,6 +36,21 @@ public class Project {
         detailsInfo.add(detailInfo);
     }
 
+//    int quantityOfDetails= detailMap.getDetails()
+//            .stream()
+//            .mapToInt(DetailForm::getQuantity)
+//            .sum();
+
+    public Double calculatePriceOfProject(){
+        if(!detailsInfo.isEmpty()){
+           return detailsInfo
+                   .stream()
+                   .mapToDouble(detailInfo -> detailInfo.getDetail().getPrice() * detailInfo.getQuantityDetailsUsed())
+                   .sum();
+        }
+        return (double)0;
+    }
+
     //delete!
     public Project(String projectName) {
         this.projectName = projectName;

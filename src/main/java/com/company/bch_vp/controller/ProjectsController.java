@@ -1,8 +1,6 @@
 package com.company.bch_vp.controller;
 
-import com.company.bch_vp.entity.Detail;
-import com.company.bch_vp.entity.DetailInfo;
-import com.company.bch_vp.entity.Project;
+import com.company.bch_vp.entity.*;
 import com.company.bch_vp.service.impl.DetailInfoServiceImpl;
 import com.company.bch_vp.service.impl.DetailServiceImpl;
 import com.company.bch_vp.service.impl.ProjectServiceImpl;
@@ -21,6 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProjectsController {
@@ -107,5 +106,84 @@ public class ProjectsController {
         }
         projectServiceImpl.sendChangesImmediately();
         return showProjects(model);
+    }
+
+
+
+
+
+
+
+
+    @PostMapping(value = "/projects", params = {"idProjectFor_AddDetailInProject"})
+    public String formAddDetailInProject(@RequestParam (name = "idProjectFor_AddDetailInProject") Long idProject,Model model){
+        List<Detail> details=detailServiceImpl.findAll();
+       Project project=projectServiceImpl.findById(idProject);
+
+        //delete projects which detail already contain
+        project.getDetailsInfo()
+                .stream()
+                .forEach(detailInfo -> {
+                    if(details.contains(detailInfo.getDetail())){
+                        details.remove(detailInfo.getDetail());
+                    }
+                });
+
+        DetailMap detailMap = new DetailMap();
+        int n=detailServiceImpl.findAll().size()-projectServiceImpl.findById(idProject).getDetailsInfo().size();
+        for (int i = 0; i < n; i++) {
+            detailMap.addDetail(new DetailForm());
+        }
+
+        model.addAttribute("detailMap", detailMap);
+        model.addAttribute("project",project);
+        model.addAttribute("details",details);
+        return "addDetailInProject";
+    }
+
+    @PostMapping(value = "/projects",params = {"idProjectFor_AddDetailInProject","add"})
+    public String addDetailInProject(@RequestParam (name = "idProjectFor_AddDetailInProject",required = true) Long idProject,
+                                     @RequestParam (name = "add",required = true) String add,
+                                     DetailMap detailMap,
+                                     Model model){
+        entityManager.clear();
+        Project project=projectServiceImpl.findById(idProject);
+        deleteAllNullFields(detailMap);
+
+        if(checkIsQuantityInFormWasCorrect(detailMap)){
+            detailMap.getDetails()
+                    .stream()
+                    .forEach(detailForm -> {
+                        detailInfoServiceImpl.addDetail(detailForm.getQuantity(),detailForm.getId(),idProject);
+                    });
+            return showProjects(model);
+        }
+        //else
+        model.addAttribute("errorQuantity","Quantity filled not correct");
+        return formAddDetailInProject(idProject,model);
+    }
+
+
+    private DetailMap deleteAllNullFields(DetailMap detailMap){
+        detailMap.setDetails(detailMap.getDetails()
+                .stream()
+                .filter(detail-> detail.getQuantity()!=null)
+                .collect(Collectors.toList()));
+        return detailMap;
+    }
+
+    private boolean checkIsQuantityInFormWasCorrect(DetailMap detailMap){
+        if(detailMap.getDetails().isEmpty()){
+            return false;
+        }
+
+        for(DetailForm detailForm: detailMap.getDetails()){
+            Integer quantityForm=detailForm.getQuantity();
+            Integer quantityOfAvailableInDetail=detailServiceImpl.findDetailById(detailForm.getId()).getQuantityOfAvailable();
+            if(quantityForm>quantityOfAvailableInDetail || quantityForm<=0){
+                return false;
+            }
+        }
+        return true;
     }
 }

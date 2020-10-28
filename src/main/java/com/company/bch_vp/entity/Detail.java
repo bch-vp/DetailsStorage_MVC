@@ -26,9 +26,11 @@ public class Detail {
     private String type;
     private String production;
     @NotNull(message="Quantity is required")
+    @Pattern(regexp = "^[1-9]\\d*$",message = "gorba иди нахуй/не пройдешь")
     private Integer quantityOfAll;
     private Integer quantityOfAvailable;
     @NotNull(message="Price is required")
+    @Pattern(regexp = "^[1-9]\\d*$",message = "gorba иди нахуй/не пройдешь")
     private Double price;
     @NotBlank(message="Storage is required")
     private String storage;

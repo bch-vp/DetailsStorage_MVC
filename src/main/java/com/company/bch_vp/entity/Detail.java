@@ -26,11 +26,11 @@ public class Detail {
     private String type;
     private String production;
     @NotNull(message="Quantity is required")
-    @Min(value = 1,message = "gorba иди нахуй/не пройдешь")
+    @Min(value = 1,message = "Filled not correct")
     private Integer quantityOfAll;
     private Integer quantityOfAvailable;
     @NotNull(message="Price is required")
-    @Min(value = 0,message = "gorba иди нахуй/не пройдешь")
+    @Min(value = 0,message = "Filled not correct")
     private Double price;
     @NotBlank(message="Storage is required")
     private String storage;

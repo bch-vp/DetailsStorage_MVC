@@ -27,7 +27,7 @@ public class Project {
     private String projectName;
     private String type;
     @NotNull(message = "Quantity is required")
-    @Min(value = 1,message = "gorba иди нахуй/не пройдешь")
+    @Min(value = 1,message = "Filled not correct")
     private Integer quantity;
     @NotBlank(message = "Storage is required")
     private String storage;

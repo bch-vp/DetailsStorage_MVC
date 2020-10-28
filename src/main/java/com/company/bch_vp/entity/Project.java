@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -26,7 +27,7 @@ public class Project {
     private String projectName;
     private String type;
     @NotNull(message = "Quantity is required")
-    @Pattern(regexp = "^[1-9]\\d*$",message = "gorba иди нахуй/не пройдешь")
+    @Min(value = 1,message = "gorba иди нахуй/не пройдешь")
     private Integer quantity;
     @NotBlank(message = "Storage is required")
     private String storage;

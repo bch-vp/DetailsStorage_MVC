@@ -120,6 +120,12 @@ public class ProjectsController {
         List<Detail> details=detailServiceImpl.findAll();
        Project project=projectServiceImpl.findById(idProject);
 
+        //if projects is empty
+        if(detailServiceImpl.findAll().isEmpty()){
+            model.addAttribute("errorThereNoDetails","error");
+            return "addDetailInProject";
+        }
+
         //delete projects which detail already contain
         project.getDetailsInfo()
                 .stream()

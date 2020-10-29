@@ -97,6 +97,12 @@ public class DetailsController {
         List<Project> projects=projectServiceImpl.findAll();
         Detail detail=detailServiceImpl.findDetailById(idDetail);
 
+        //if projects is empty
+        if(projectServiceImpl.findAll().isEmpty()){
+            model.addAttribute("errorThereNoProjects","error");
+            return "addProjectInDetail";
+        }
+
         //delete projects which detail already contain
         detail.getDetailsInfo()
                 .stream()
@@ -151,10 +157,6 @@ public class DetailsController {
         model.addAttribute("errorQuantity","Quantity filled not correct");
         return formAddProjectInDetail(idDetail,model);
     }
-
-
-
-
 
 
     private DetailMap deleteAllNullFields(DetailMap detailMap){

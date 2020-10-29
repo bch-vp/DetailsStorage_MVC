@@ -37,76 +37,87 @@
     <form th:action="@{/}" method="get">
         <button class="btn btn-secondary-sm btn-sm" type="submit"><- Go back</button>
     </form>
-    <div th:if="${projects.isEmpty()}">
-    <span style="color:red;">
-        Can't add any project<br>Because these detail has all projects<br>Pleae construct or delete at least 1 project
+
+    <div th:if="${errorThereNoProjects!=null}">
+    <span style="color: red">
+        Please construct at least one project
     </span>
     </div>
 
-    <div th:if="${!projects.isEmpty()}">
-        <br><br>
-        <span style="color: red" th:if="${errorQuantity!=null}" th:text="${errorQuantity}"/>
-        <form class="col-12" method="POSt" th:action="@{/}" th:object="${detailMap}">
-            <input hidden th:name="idDetailFor_AddProjectInDetail" th:value="${detail.getId()}"/>
-            <input hidden th:name="add" th:value="add"/>
-            <span th:if="${!projects.isEmpty()}">
+    <div th:if="${errorThereNoProjects==null}">
+        <div th:if="${projects.isEmpty()}">
+    <span style="color:red;">
+        Can't add any project<br>Because these detail has all projects<br>Pleae construct or delete at least 1 project
+    </span>
+        </div>
+
+        <div th:if="${!projects.isEmpty()}">
+            <br><br>
+            <span style="color: red" th:if="${errorQuantity!=null}" th:text="${errorQuantity}"/>
+            <form class="col-12" method="POSt" th:action="@{/}" th:object="${detailMap}">
+                <input hidden th:name="idDetailFor_AddProjectInDetail" th:value="${detail.getId()}"/>
+                <input hidden th:name="add" th:value="add"/>
+                <span th:if="${!projects.isEmpty()}">
                 <b>Quantity of available details: </b>
                 <span style="color:forestgreen;" th:text="${detail.quantityOfAvailable}"/>
             </span>
-            <div class="row  justify-content-center align-items-center">
-                <table th:if="${!projects.isEmpty()}" class="table table-bordered">
-                    <tbody>
-                    <tr style=" border-color: skyblue" th:each="project,itemStat: ${projects}">
-                        <input hidden th:name="|details[${itemStat.index}].id|" th:value="${project.getId()}"/>
-                        <td style="border-color: skyblue; width: 200px">
-                            <div class="form-group">
-                                <input type="number" class="form-control" placeholder="Quantity"
-                                       th:field="*{details[__${itemStat.index}__].quantity}"/>
-                            </div>
-                        </td>
+                <div class="row  justify-content-center align-items-center">
+                    <table th:if="${!projects.isEmpty()}" class="table table-bordered">
+                        <tbody>
+                        <tr style=" border-color: skyblue" th:each="project,itemStat: ${projects}">
+                            <input hidden th:name="|details[${itemStat.index}].id|" th:value="${project.getId()}"/>
+                            <td style="border-color: skyblue; width: 200px">
+                                <div class="form-group">
+                                    <input type="number" class="form-control" placeholder="Quantity"
+                                           th:field="*{details[__${itemStat.index}__].quantity}"/>
+                                </div>
+                            </td>
 
-                        <td style=" border-color: skyblue;width: 200px">
-                            <b>Project Name:</b>
-                            <br>
-                            <span th:if="${project.projectName != null }"
-                                  th:text="${project.projectName}"/>
-                        </td>
+                            <td style=" border-color: skyblue;width: 200px">
+                                <b>Project Name:</b>
+                                <br>
+                                <span th:if="${project.projectName != null }"
+                                      th:text="${project.projectName}"/>
+                            </td>
 
-                        <td style=" border-color: skyblue; width: 200px">
-                            <b>Type:</b>
-                            <br>
-                            <span th:if="${project.type != null }"
-                                  th:text="${project.type}"/>
-                        </td>
+                            <td style=" border-color: skyblue; width: 200px">
+                                <b>Type:</b>
+                                <br>
+                                <span th:if="${project.type != null }"
+                                      th:text="${project.type}"/>
+                            </td>
 
-                        <td style=" border-color: skyblue; width: 200px">
-                            <b>Quantity:</b>
-                            <br>
-                            <span th:if="${project.quantity != null }"
-                                  th:text="${project.quantity}"/>
-                        </td>
+                            <td style=" border-color: skyblue; width: 200px">
+                                <b>Quantity:</b>
+                                <br>
+                                <span th:if="${project.quantity != null }"
+                                      th:text="${project.quantity}"/>
+                            </td>
 
-                        <td style=" border-color: skyblue; width: 200px">
-                            <b>Storage</b>
-                            <br>
-                            <span th:if="${project.storage != null }"
-                                  th:text="${project.storage}"/>
-                        </td>
+                            <td style=" border-color: skyblue; width: 200px">
+                                <b>Storage</b>
+                                <br>
+                                <span th:if="${project.storage != null }"
+                                      th:text="${project.storage}"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    </td>
+
                     </tr>
                     </tbody>
-                </table>
-
-                </td>
-
-                </tr>
-                </tbody>
-                </table>
-            </div>
-            <div style="width: .7em; width: 1ch; text-align: center;word-wrap: break-word;">
-                <button type="submit" class="btn btn-primary btn-sm">Add projects</button>
-            </div>
-        </form>
+                    </table>
+                </div>
+                <div style="width: .7em; width: 1ch; text-align: center;word-wrap: break-word;">
+                    <button type="submit" class="btn btn-primary btn-sm">Add projects</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+
 </body>
 </html>

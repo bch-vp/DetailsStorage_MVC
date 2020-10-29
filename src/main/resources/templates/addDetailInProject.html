@@ -37,97 +37,106 @@
     <form th:action="@{/projects}" method="get">
         <button class="btn btn-secondary-sm btn-sm" type="submit"><- Go back</button>
     </form>
-    <div th:if="${details.isEmpty()}">
+
+    <div th:if="${errorThereNoDetails!=null}">
+        <span style="color: red">
+            Please construct at least one detail
+        </span>
+    </div>
+
+    <div th:if="${errorThereNoDetails==null}">
+        <div th:if="${details.isEmpty()}">
     <span style="color:red;">
         Can't add any detail<br>Because these project has all details<br>Pleae construct or delete at least 1 detail
     </span>
-    </div>
+        </div>
 
-    <div th:if="${!details.isEmpty()}">
-        <br><br>
-        <span style="color: red" th:if="${errorQuantity!=null}" th:text="${errorQuantity}"/>
-        <form class="col-12" method="POSt" th:action="@{/projects}" th:object="${detailMap}">
-            <input hidden th:name="idProjectFor_AddDetailInProject" th:value="${project.getId()}"/>
-            <input hidden th:name="add" th:value="add"/>
-            <div class="row  justify-content-center align-items-center">
-                <table th:if="${!details.isEmpty()}" class="table table-bordered">
-                    <tbody>
-                    <tr style=" border-color: skyblue" th:each="detail,itemStat: ${details}">
-                        <input hidden th:name="|details[${itemStat.index}].id|" th:value="${detail.getId()}"/>
-                        <td style="border-color: skyblue; width: 200px">
-                            <b>Quantity of available:</b>
-                            <br>
-                            <span th:text="${detail.quantityOfAvailable}" style="color: forestgreen"/>
-                            <div class="form-group">
-                                <input type="number" class="form-control" placeholder="Quantity"
-                                       th:field="*{details[__${itemStat.index}__].quantity}"/>
-                            </div>
-                        </td>
+        <div th:if="${!details.isEmpty()}">
+            <br><br>
+            <span style="color: red" th:if="${errorQuantity!=null}" th:text="${errorQuantity}"/>
+            <form class="col-12" method="POSt" th:action="@{/projects}" th:object="${detailMap}">
+                <input hidden th:name="idProjectFor_AddDetailInProject" th:value="${project.getId()}"/>
+                <input hidden th:name="add" th:value="add"/>
+                <div class="row  justify-content-center align-items-center">
+                    <table th:if="${!details.isEmpty()}" class="table table-bordered">
+                        <tbody>
+                        <tr style=" border-color: skyblue" th:each="detail,itemStat: ${details}">
+                            <input hidden th:name="|details[${itemStat.index}].id|" th:value="${detail.getId()}"/>
+                            <td style="border-color: skyblue; width: 200px">
+                                <b>Quantity of available:</b>
+                                <br>
+                                <span th:text="${detail.quantityOfAvailable}" style="color: forestgreen"/>
+                                <div class="form-group">
+                                    <input type="number" class="form-control" placeholder="Quantity"
+                                           th:field="*{details[__${itemStat.index}__].quantity}"/>
+                                </div>
+                            </td>
 
-                        <td style="border-width: 2px; border-color: skyblue">
-                            <b>Detail Name:</b>
-                            <br>
-                            <span th:if="${detail.detailName != null }"
-                                  th:text="${detail.detailName}"/>
-                        </td>
+                            <td style="border-width: 2px; border-color: skyblue">
+                                <b>Detail Name:</b>
+                                <br>
+                                <span th:if="${detail.detailName != null }"
+                                      th:text="${detail.detailName}"/>
+                            </td>
 
-                        <td style="border-width: 2px; border-color: skyblue">
-                            <b>Type:</b>
-                            <br>
-                            <span th:if="${detail.type != null }"
-                                  th:text="${detail.type}"/>
-                        </td>
+                            <td style="border-width: 2px; border-color: skyblue">
+                                <b>Type:</b>
+                                <br>
+                                <span th:if="${detail.type != null }"
+                                      th:text="${detail.type}"/>
+                            </td>
 
-                        <td style="border-width: 2px; border-color: skyblue">
-                            <b>Production:</b>
-                            <br>
-                            <span th:if="${detail.production != null }"
-                                  th:text="${detail.production}"/>
-                        </td>
+                            <td style="border-width: 2px; border-color: skyblue">
+                                <b>Production:</b>
+                                <br>
+                                <span th:if="${detail.production != null }"
+                                      th:text="${detail.production}"/>
+                            </td>
 
-                        <td style="border-width: 2px; border-color: skyblue">
-                            <b>Quantity of all:</b>
-                            <br>
-                            <span th:if="${detail.quantityOfAll != null }"
-                                  th:text="${detail.quantityOfAll}"/>
-                        </td>
+                            <td style="border-width: 2px; border-color: skyblue">
+                                <b>Quantity of all:</b>
+                                <br>
+                                <span th:if="${detail.quantityOfAll != null }"
+                                      th:text="${detail.quantityOfAll}"/>
+                            </td>
 
-                        <td style="border-width: 2px; border-color: skyblue">
-                            <b>Quantity of available:</b>
-                            <br>
-                            <span style="color: forestgreen"
-                                  th:if="${detail.quantityOfAvailable != null }"
-                                  th:text="${detail.quantityOfAvailable}"/>
-                        </td>
+                            <td style="border-width: 2px; border-color: skyblue">
+                                <b>Quantity of available:</b>
+                                <br>
+                                <span style="color: forestgreen"
+                                      th:if="${detail.quantityOfAvailable != null }"
+                                      th:text="${detail.quantityOfAvailable}"/>
+                            </td>
 
-                        <td style="border-width: 2px; border-color: skyblue">
-                            <b>Price:</b>
-                            <br>
-                            <span th:if="${detail.price != null }"
-                                  th:text="${detail.price}"/>
-                        </td>
+                            <td style="border-width: 2px; border-color: skyblue">
+                                <b>Price:</b>
+                                <br>
+                                <span th:if="${detail.price != null }"
+                                      th:text="${detail.price}"/>
+                            </td>
 
-                        <td style="border-width: 2px; border-color: skyblue">
-                            <b>Storage:</b>
-                            <br>
-                            <span th:if="${detail.storage != null }"
-                                  th:text="${detail.storage}"/>
-                        </td>
+                            <td style="border-width: 2px; border-color: skyblue">
+                                <b>Storage:</b>
+                                <br>
+                                <span th:if="${detail.storage != null }"
+                                      th:text="${detail.storage}"/>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    </td>
 
                     </tr>
                     </tbody>
-                </table>
-
-                </td>
-
-                </tr>
-                </tbody>
-                </table>
-            </div>
-            <div style="width: .7em; width: 1ch; text-align: center;word-wrap: break-word;">
-                <button type="submit" class="btn btn-primary btn-sm">Add projects</button>
-            </div>
-        </form>
+                    </table>
+                </div>
+                <div style="width: .7em; width: 1ch; text-align: center;word-wrap: break-word;">
+                    <button type="submit" class="btn btn-primary btn-sm">Add projects</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 </body>

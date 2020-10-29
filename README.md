@@ -1,6 +1,7 @@
 **Менеджер инвентаря**
 
 Язык: Java
+
 Стек технологий: Hibernate, Postgresql, Spring Framework(data-jpa, thymeleaf, web, devtools)
 
 Начальное задание:
